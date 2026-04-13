@@ -1,0 +1,120 @@
+name: Release APK
+
+on:
+  # 打 tag 时自动构建并发布
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-and-release:
+    name: Build & Release APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.0'
+          channel: 'stable'
+          cache: true
+
+      - name: Install dependencies
+        run: |
+          cd packages/photo_sync_core && dart pub get
+          cd ../../app_mobile && flutter pub get
+
+      - name: Create Android platform files
+        run: |
+          cd app_mobile
+          if [ ! -d "android" ]; then
+            flutter create --platforms=android .
+          fi
+
+      - name: Configure Android manifest
+        run: |
+          cat > app_mobile/android/app/src/main/AndroidManifest.xml << 'MANIFEST_EOF'
+          <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+              <uses-permission android:name="android.permission.INTERNET"/>
+              <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+              <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+              <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"/>
+              <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+              <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+              <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>
+              <uses-permission android:name="android.permission.CAMERA"/>
+              <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+              <application
+                  android:label="PhotoSync"
+                  android:name="${applicationName}"
+                  android:icon="@mipmap/ic_launcher"
+                  android:requestLegacyExternalStorage="true">
+                  <activity
+                      android:name=".MainActivity"
+                      android:exported="true"
+                      android:launchMode="singleTop"
+                      android:taskAffinity=""
+                      android:theme="@style/LaunchTheme"
+                      android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+                      android:hardwareAccelerated="true"
+                      android:windowSoftInputMode="adjustResize">
+                      <meta-data
+                          android:name="io.flutter.embedding.android.NormalTheme"
+                          android:resource="@style/NormalTheme"/>
+                      <intent-filter>
+                          <action android:name="android.intent.action.MAIN"/>
+                          <category android:name="android.intent.category.LAUNCHER"/>
+                      </intent-filter>
+                  </activity>
+                  <meta-data
+                      android:name="flutterEmbedding"
+                      android:value="2"/>
+              </application>
+              <queries>
+                  <intent>
+                      <action android:name="android.intent.action.PROCESS_TEXT"/>
+                      <data android:mimeType="text/plain"/>
+                  </intent>
+              </queries>
+          </manifest>
+          MANIFEST_EOF
+
+      - name: Configure build.gradle
+        run: |
+          cd app_mobile/android/app
+          sed -i 's/minSdk = .*/minSdk = 21/' build.gradle
+          sed -i 's/targetSdk = .*/targetSdk = 34/' build.gradle
+          sed -i 's/compileSdk = .*/compileSdk = 34/' build.gradle
+
+      - name: Build Release APK
+        run: |
+          cd app_mobile
+          flutter build apk --release
+
+      - name: Rename APK with version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/}
+          cp app_mobile/build/app/outputs/flutter-apk/app-release.apk \
+             app_mobile/build/app/outputs/flutter-apk/PhotoSync-${VERSION}.apk
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            app_mobile/build/app/outputs/flutter-apk/PhotoSync-*.apk
+            app_mobile/build/app/outputs/flutter-apk/app-release.apk
+          generate_release_notes: true
+          draft: false
+          prerelease: false

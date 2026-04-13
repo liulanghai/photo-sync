@@ -1,0 +1,20 @@
+name: photo_sync_core
+description: 照片同步 App 共享核心库 - 通信协议、同步逻辑、配对认证
+version: 1.0.0
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  shelf: ^1.4.1
+  shelf_router: ^1.1.4
+  http: ^1.2.0
+  crypto: ^3.0.3
+  dart_jsonwebtoken: ^2.12.0
+  multicast_dns: ^0.3.2+6
+  mime: ^1.0.5
+  path: ^1.8.3
+  uuid: ^4.2.1
+
+dev_dependencies:
+  test: ^1.24.0

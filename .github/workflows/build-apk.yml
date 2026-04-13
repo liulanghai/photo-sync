@@ -1,0 +1,153 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  # 支持手动触发
+  workflow_dispatch:
+
+jobs:
+  build-apk:
+    name: Build APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      # 1. 检出代码
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. 安装 Java (Android 编译需要)
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      # 3. 安装 Flutter
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.0'
+          channel: 'stable'
+          cache: true
+
+      # 4. 安装核心库依赖
+      - name: Install core dependencies
+        run: |
+          cd packages/photo_sync_core
+          dart pub get
+
+      # 5. 安装手机端依赖
+      - name: Install mobile dependencies
+        run: |
+          cd app_mobile
+          flutter pub get
+
+      # 6. 生成 Android 平台文件（如果不存在）
+      - name: Create Android platform files
+        run: |
+          cd app_mobile
+          if [ ! -d "android" ]; then
+            flutter create --platforms=android .
+          fi
+
+      # 7. 覆盖 Android 配置
+      - name: Configure Android manifest
+        run: |
+          cat > app_mobile/android/app/src/main/AndroidManifest.xml << 'MANIFEST_EOF'
+          <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+              <uses-permission android:name="android.permission.INTERNET"/>
+              <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+              <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+              <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"/>
+              <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+              <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+              <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>
+              <uses-permission android:name="android.permission.CAMERA"/>
+              <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+
+              <application
+                  android:label="PhotoSync"
+                  android:name="${applicationName}"
+                  android:icon="@mipmap/ic_launcher"
+                  android:requestLegacyExternalStorage="true">
+                  <activity
+                      android:name=".MainActivity"
+                      android:exported="true"
+                      android:launchMode="singleTop"
+                      android:taskAffinity=""
+                      android:theme="@style/LaunchTheme"
+                      android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+                      android:hardwareAccelerated="true"
+                      android:windowSoftInputMode="adjustResize">
+                      <meta-data
+                          android:name="io.flutter.embedding.android.NormalTheme"
+                          android:resource="@style/NormalTheme"/>
+                      <intent-filter>
+                          <action android:name="android.intent.action.MAIN"/>
+                          <category android:name="android.intent.category.LAUNCHER"/>
+                      </intent-filter>
+                  </activity>
+                  <meta-data
+                      android:name="flutterEmbedding"
+                      android:value="2"/>
+              </application>
+
+              <queries>
+                  <intent>
+                      <action android:name="android.intent.action.PROCESS_TEXT"/>
+                      <data android:mimeType="text/plain"/>
+                  </intent>
+              </queries>
+          </manifest>
+          MANIFEST_EOF
+
+      # 8. 配置 build.gradle (设置 minSdk, targetSdk, applicationId)
+      - name: Configure build.gradle
+        run: |
+          cd app_mobile/android/app
+          sed -i 's/minSdk = .*/minSdk = 21/' build.gradle
+          sed -i 's/targetSdk = .*/targetSdk = 34/' build.gradle
+          sed -i 's/compileSdk = .*/compileSdk = 34/' build.gradle
+          # 修改 applicationId
+          sed -i 's/applicationId = .*/applicationId = "com.photosync.app"/' build.gradle || true
+
+      # 9. 编译 Debug APK
+      - name: Build Debug APK
+        run: |
+          cd app_mobile
+          flutter build apk --debug
+
+      # 10. 编译 Release APK
+      - name: Build Release APK
+        run: |
+          cd app_mobile
+          flutter build apk --release
+
+      # 11. 上传 APK 产物
+      - name: Upload Debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug
+          path: app_mobile/build/app/outputs/flutter-apk/app-debug.apk
+          retention-days: 30
+
+      - name: Upload Release APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release
+          path: app_mobile/build/app/outputs/flutter-apk/app-release.apk
+          retention-days: 30
+
+      # 12. 输出 APK 信息
+      - name: APK Info
+        run: |
+          echo "=== Debug APK ==="
+          ls -lh app_mobile/build/app/outputs/flutter-apk/app-debug.apk
+          echo ""
+          echo "=== Release APK ==="
+          ls -lh app_mobile/build/app/outputs/flutter-apk/app-release.apk
