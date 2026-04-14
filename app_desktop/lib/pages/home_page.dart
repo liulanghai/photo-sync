@@ -140,39 +140,8 @@ class StatusPanel extends StatelessWidget {
               const SizedBox(height: 24),
 
               // 同步进度（如果正在同步）
-              if (provider.isSyncing) ...[
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            const SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            ),
-                            const SizedBox(width: 12),
-                            Text('正在同步: ${provider.currentFileName ?? ""}'),
-                          ],
-                        ),
-                        const SizedBox(height: 8),
-                        LinearProgressIndicator(
-                          value: provider.totalFiles > 0
-                              ? provider.currentFileIndex / provider.totalFiles
-                              : null,
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          '${provider.currentFileIndex} / ${provider.totalFiles}',
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+              if (provider.isSyncing) ...[ 
+                _SyncProgressCard(provider: provider),
                 const SizedBox(height: 24),
               ],
 
@@ -208,6 +177,166 @@ class StatusPanel extends StatelessWidget {
   }
 
   static String _formatBytes(int bytes) {
+    if (bytes < 1024 * 1024) return '${(bytes / 1024).toStringAsFixed(1)} KB';
+    if (bytes < 1024 * 1024 * 1024) {
+      return '${(bytes / (1024 * 1024)).toStringAsFixed(1)} MB';
+    }
+    return '${(bytes / (1024 * 1024 * 1024)).toStringAsFixed(2)} GB';
+  }
+}
+
+/// 同步进度卡片 — 显示详细的传输进度
+class _SyncProgressCard extends StatelessWidget {
+  final SyncServerProvider provider;
+
+  const _SyncProgressCard({required this.provider});
+
+  @override
+  Widget build(BuildContext context) {
+    final hasFileProgress = provider.currentFileTotalBytes > 0;
+    final fileProgress = provider.currentFileProgress;
+    final speed = provider.transferSpeed;
+
+    // 估算剩余时间
+    String etaText = '';
+    if (hasFileProgress && speed > 0) {
+      final remainingBytes = provider.currentFileTotalBytes - provider.currentFileReceivedBytes;
+      final etaSeconds = (remainingBytes / speed).round();
+      if (etaSeconds < 60) {
+        etaText = '约 ${etaSeconds}s';
+      } else if (etaSeconds < 3600) {
+        etaText = '约 ${etaSeconds ~/ 60}m ${etaSeconds % 60}s';
+      } else {
+        etaText = '约 ${etaSeconds ~/ 3600}h ${(etaSeconds % 3600) ~/ 60}m';
+      }
+    }
+
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // 标题行
+            Row(
+              children: [
+                const SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    '正在接收: ${provider.currentFileName ?? ""}',
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w500,
+                        ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+
+            // 当前文件进度条（确定进度）
+            if (hasFileProgress) ...[
+              ClipRRect(
+                borderRadius: BorderRadius.circular(4),
+                child: LinearProgressIndicator(
+                  value: fileProgress,
+                  minHeight: 8,
+                  backgroundColor: Colors.grey.shade200,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // 已传输 / 总大小
+                  Text(
+                    '${_formatBytes(provider.currentFileReceivedBytes)} / ${_formatBytes(provider.currentFileTotalBytes)}',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                  // 百分比
+                  Text(
+                    '${(fileProgress * 100).toStringAsFixed(1)}%',
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 4),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // 传输速度
+                  if (speed > 0)
+                    Text(
+                      '${_formatBytes(speed.round())}/s',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: Colors.blue,
+                          ),
+                    )
+                  else
+                    const SizedBox.shrink(),
+                  // 预计剩余时间
+                  if (etaText.isNotEmpty)
+                    Text(
+                      etaText,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: Colors.grey,
+                          ),
+                    ),
+                ],
+              ),
+            ] else ...[
+              // 无法确定大小时显示不确定进度
+              const LinearProgressIndicator(),
+            ],
+
+            // 总体文件数进度
+            if (provider.totalFiles > 0) ...[
+              const SizedBox(height: 12),
+              const Divider(height: 1),
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '总进度: ${provider.currentFileIndex} / ${provider.totalFiles} 个文件',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                  Text(
+                    '${provider.totalFiles > 0 ? (provider.currentFileIndex / provider.totalFiles * 100).toStringAsFixed(0) : 0}%',
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 4),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(2),
+                child: LinearProgressIndicator(
+                  value: provider.totalFiles > 0
+                      ? provider.currentFileIndex / provider.totalFiles
+                      : 0,
+                  minHeight: 4,
+                  backgroundColor: Colors.grey.shade200,
+                  color: Colors.green,
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  static String _formatBytes(int bytes) {
+    if (bytes < 1024) return '$bytes B';
     if (bytes < 1024 * 1024) return '${(bytes / 1024).toStringAsFixed(1)} KB';
     if (bytes < 1024 * 1024 * 1024) {
       return '${(bytes / (1024 * 1024)).toStringAsFixed(1)} MB';

@@ -33,6 +33,9 @@ class SyncServer {
   void Function(String deviceName)? onDevicePaired;
   void Function()? onSyncComplete;
 
+  /// 大文件传输进度回调：(已接收字节, 文件总大小, 文件名)
+  void Function(int receivedBytes, int totalBytes, String fileName)? onFileProgress;
+
   SyncServer({
     required this.deviceInfo,
     required this.pairingManager,
@@ -136,7 +139,7 @@ class SyncServer {
     );
   }
 
-  /// POST /api/upload
+  /// POST /api/upload — 流式写入，支持大文件
   Future<Response> _handleUpload(Request request) async {
     final authError = _checkAuth(request);
     if (authError != null) return authError;
@@ -158,65 +161,113 @@ class SyncServer {
         return Response(400, body: jsonEncode({'error': '需要 multipart/form-data'}));
       }
 
+      // 从 Content-Length 获取请求总大小（用于进度估算）
+      final contentLength = int.tryParse(request.headers['content-length'] ?? '0') ?? 0;
+
       final boundary = contentType.split('boundary=').last;
       final transformer = MimeMultipartTransformer(boundary);
-      final parts = await transformer
-          .bind(request.read())
-          .map((part) async {
-            final disposition = part.headers['content-disposition'] ?? '';
-            final nameMatch = RegExp(r'name="([^"]*)"').firstMatch(disposition);
-            final name = nameMatch?.group(1) ?? '';
-            final bytes = await part.fold<List<int>>(
-              [],
-              (prev, chunk) => prev..addAll(chunk),
-            );
-            return MapEntry(name, bytes);
-          })
-          .toList();
 
-      final partMap = <String, List<int>>{};
-      for (final future in parts) {
-        final entry = await future;
-        partMap[entry.key] = entry.value;
+      // 字段和文件数据
+      final fields = <String, String>{};
+      String? tempFilePath;
+      IOSink? fileSink;
+      int receivedFileBytes = 0;
+      int lastProgressReport = 0;
+      String currentFileName = '';
+
+      // 流式处理各 part
+      await for (final part in transformer.bind(request.read())) {
+        final disposition = part.headers['content-disposition'] ?? '';
+        final nameMatch = RegExp(r'name="([^"]*)"').firstMatch(disposition);
+        final name = nameMatch?.group(1) ?? '';
+
+        if (name == 'file') {
+          // 文件 part：流式写入临时文件，不全部加载到内存
+          final tmpDir = Directory(p.join(storageRoot, '.tmp'));
+          if (!tmpDir.existsSync()) tmpDir.createSync(recursive: true);
+          tempFilePath = p.join(tmpDir.path, 'upload_${DateTime.now().millisecondsSinceEpoch}');
+          final tmpFile = File(tempFilePath);
+          fileSink = tmpFile.openWrite();
+
+          await for (final chunk in part) {
+            fileSink.add(chunk);
+            receivedFileBytes += chunk.length;
+
+            // 每接收 256KB 或进度变化超过 1% 时报告进度
+            if (receivedFileBytes - lastProgressReport > 256 * 1024) {
+              lastProgressReport = receivedFileBytes;
+              onFileProgress?.call(receivedFileBytes, contentLength, currentFileName);
+            }
+          }
+          await fileSink.flush();
+          await fileSink.close();
+          fileSink = null;
+        } else {
+          // 普通字段：读入内存（很小）
+          final bytes = await part.fold<List<int>>(
+            [],
+            (prev, chunk) => prev..addAll(chunk),
+          );
+          final value = utf8.decode(bytes);
+          fields[name] = value;
+          if (name == 'fileName') currentFileName = value;
+        }
       }
 
       // 提取字段
-      final fileName = utf8.decode(partMap['fileName'] ?? []);
-      final album = utf8.decode(partMap['album'] ?? []);
-      final fingerprint = utf8.decode(partMap['fingerprint'] ?? []);
-      final fileData = partMap['file'];
+      final fileName = fields['fileName'] ?? '';
+      final album = fields['album'] ?? '';
+      final fingerprint = fields['fingerprint'] ?? '';
+      final declaredSize = int.tryParse(fields['fileSize'] ?? '0') ?? 0;
 
-      if (fileName.isEmpty || album.isEmpty || fileData == null || fileData.isEmpty) {
+      if (fileName.isEmpty || album.isEmpty || tempFilePath == null) {
+        // 清理临时文件
+        if (tempFilePath != null) {
+          try { File(tempFilePath).deleteSync(); } catch (_) {}
+        }
         return Response(400, body: jsonEncode({'error': '缺少必要字段'}));
       }
 
       // 去重检查
       if (_syncedFingerprints.contains(fingerprint)) {
+        // 清理临时文件
+        try { File(tempFilePath).deleteSync(); } catch (_) {}
         return Response.ok(jsonEncode({
           'status': 'skipped',
           'reason': 'duplicate',
         }), headers: {'Content-Type': 'application/json'});
       }
 
-      // 按相册创建目录并保存文件
+      // 按相册创建目录
       final albumDir = Directory(p.join(storageRoot, _sanitizeDirName(album)));
       if (!albumDir.existsSync()) {
         albumDir.createSync(recursive: true);
       }
 
+      // 移动临时文件到目标位置（同一文件系统下是 rename，非常快）
       final filePath = p.join(albumDir.path, fileName);
-      final file = File(filePath);
-      await file.writeAsBytes(fileData);
+      final tmpFile = File(tempFilePath);
+      try {
+        await tmpFile.rename(filePath);
+      } catch (_) {
+        // 跨文件系统时 rename 会失败，改用 copy + delete
+        await tmpFile.copy(filePath);
+        await tmpFile.delete();
+      }
+
+      // 报告最终进度
+      onFileProgress?.call(receivedFileBytes, receivedFileBytes, fileName);
 
       // 记录指纹
       _syncedFingerprints.add(fingerprint);
       await _saveFingerprintIndex();
 
-      onFileReceived?.call(fileName, album, fileData.length);
+      onFileReceived?.call(fileName, album, receivedFileBytes);
 
       return Response.ok(jsonEncode({
         'status': 'ok',
         'path': '$album/$fileName',
+        'size': receivedFileBytes,
       }), headers: {'Content-Type': 'application/json'});
     } catch (e) {
       onLog?.call('上传错误: $e');

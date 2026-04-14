@@ -33,6 +33,10 @@ class SyncProvider extends ChangeNotifier {
   String _statusMessage = '未连接';
   List<PhotoInfo> _pendingFiles = [];
 
+  // 当前文件上传进度
+  int _uploadSentBytes = 0;
+  int _uploadTotalBytes = 0;
+
   // Getters
   ConnectionStatus get connectionStatus => _connectionStatus;
   String? get serverIp => _serverIp;
@@ -48,6 +52,14 @@ class SyncProvider extends ChangeNotifier {
   bool get isPaused => _engine?.isPaused ?? false;
   SyncDatabase get database => _db;
   PhotoScanner get scanner => _scanner;
+  int get uploadSentBytes => _uploadSentBytes;
+  int get uploadTotalBytes => _uploadTotalBytes;
+
+  /// 当前文件上传进度 0.0 - 1.0
+  double get uploadProgress {
+    if (_uploadTotalBytes <= 0) return 0.0;
+    return (_uploadSentBytes / _uploadTotalBytes).clamp(0.0, 1.0);
+  }
 
   /// 初始化
   Future<void> initialize() async {
@@ -62,6 +74,13 @@ class SyncProvider extends ChangeNotifier {
       _serverIp = prefs.getString('server_ip');
       _serverPort = prefs.getInt('server_port') ?? SyncConstants.defaultPort;
 
+      // 设置上传进度回调
+      _client.onUploadProgress = (sent, total) {
+        _uploadSentBytes = sent;
+        _uploadTotalBytes = total;
+        notifyListeners();
+      };
+
       _engine = SyncEngine(
         client: _client,
         dedupManager: _dedupManager,
@@ -70,6 +89,9 @@ class SyncProvider extends ChangeNotifier {
       _engine!.onProgress = (task) {
         _currentTask = task;
         _statusMessage = '同步中 ${task.currentIndex}/${task.totalFiles}';
+        // 切换到新文件时重置上传进度
+        _uploadSentBytes = 0;
+        _uploadTotalBytes = 0;
         notifyListeners();
       };
 
@@ -79,6 +101,8 @@ class SyncProvider extends ChangeNotifier {
 
       _engine!.onSyncComplete = () {
         _statusMessage = '同步完成';
+        _uploadSentBytes = 0;
+        _uploadTotalBytes = 0;
         _refreshSyncedCount();
         notifyListeners();
       };

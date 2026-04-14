@@ -28,6 +28,13 @@ class SyncServerProvider extends ChangeNotifier {
   int _totalFiles = 0;
   bool _isSyncing = false;
 
+  // 当前文件传输进度（字节级）
+  int _currentFileReceivedBytes = 0;
+  int _currentFileTotalBytes = 0;
+  double _transferSpeed = 0; // 字节/秒
+  DateTime? _lastSpeedCalcTime;
+  int _lastSpeedCalcBytes = 0;
+
   // Getters
   bool get isRunning => _isRunning;
   bool get isPaired => _isPaired;
@@ -43,6 +50,15 @@ class SyncServerProvider extends ChangeNotifier {
   int get currentFileIndex => _currentFileIndex;
   int get totalFiles => _totalFiles;
   bool get isSyncing => _isSyncing;
+  int get currentFileReceivedBytes => _currentFileReceivedBytes;
+  int get currentFileTotalBytes => _currentFileTotalBytes;
+  double get transferSpeed => _transferSpeed;
+
+  /// 当前文件传输进度 0.0 - 1.0
+  double get currentFileProgress {
+    if (_currentFileTotalBytes <= 0) return 0.0;
+    return (_currentFileReceivedBytes / _currentFileTotalBytes).clamp(0.0, 1.0);
+  }
 
   /// 磁盘空间是否不足（< 1GB）
   bool get isDiskLow =>
@@ -110,6 +126,35 @@ class SyncServerProvider extends ChangeNotifier {
       _currentFileName = fileName;
       _syncedCount = _server.syncedFileCount;
       _isSyncing = true;
+      // 文件接收完成，重置当前文件进度
+      _currentFileReceivedBytes = 0;
+      _currentFileTotalBytes = 0;
+      _transferSpeed = 0;
+      notifyListeners();
+    };
+
+    // 大文件传输进度回调
+    _server.onFileProgress = (receivedBytes, totalBytes, fileName) {
+      _currentFileName = fileName;
+      _currentFileReceivedBytes = receivedBytes;
+      _currentFileTotalBytes = totalBytes;
+      _isSyncing = true;
+
+      // 计算传输速度（每 500ms 更新一次）
+      final now = DateTime.now();
+      if (_lastSpeedCalcTime != null) {
+        final elapsed = now.difference(_lastSpeedCalcTime!).inMilliseconds;
+        if (elapsed >= 500) {
+          final bytesDelta = receivedBytes - _lastSpeedCalcBytes;
+          _transferSpeed = bytesDelta / (elapsed / 1000.0);
+          _lastSpeedCalcTime = now;
+          _lastSpeedCalcBytes = receivedBytes;
+        }
+      } else {
+        _lastSpeedCalcTime = now;
+        _lastSpeedCalcBytes = receivedBytes;
+      }
+
       notifyListeners();
     };
 

@@ -8,12 +8,18 @@ import '../models/device_info.dart';
 import '../models/photo_info.dart';
 import 'api_routes.dart';
 
+/// 上传进度回调: (已发送字节, 总字节)
+typedef UploadProgressCallback = void Function(int sent, int total);
+
 /// 手机端 HTTP 同步客户端
 class SyncClient {
   String? _baseUrl;
   String? _token;
   final http.Client _client = http.Client();
   bool _isCancelled = false;
+
+  /// 上传进度回调
+  UploadProgressCallback? onUploadProgress;
 
   /// 连接状态
   bool get isConnected => _baseUrl != null;
@@ -76,13 +82,18 @@ class SyncClient {
     return list.toSet();
   }
 
-  /// 上传单个文件
+  /// 上传单个文件（流式上传，支持大文件进度）
   /// 返回: {'status': 'ok'/'skipped'/'error', ...}
   Future<Map<String, dynamic>> uploadFile(PhotoInfo photo) async {
     if (_isCancelled) throw CancelledException();
     if (_baseUrl == null) throw Exception('未连接到服务器');
 
+    final file = File(photo.filePath);
+    final fileSize = await file.length();
+
     final uri = Uri.parse('$_baseUrl${ApiRoutes.upload}');
+
+    // 构建 multipart 请求
     final request = http.MultipartRequest('POST', uri);
 
     // 添加认证头
@@ -93,19 +104,21 @@ class SyncClient {
     // 添加表单字段
     request.fields['fileName'] = photo.fileName;
     request.fields['album'] = photo.album;
-    request.fields['fileSize'] = photo.fileSize.toString();
+    request.fields['fileSize'] = fileSize.toString();
     request.fields['dateAdded'] = photo.dateAdded.toString();
     request.fields['dateModified'] = photo.dateModified.toString();
     request.fields['fingerprint'] = photo.fingerprint;
 
-    // 添加文件
-    request.files.add(await http.MultipartFile.fromPath(
+    // 添加文件（使用流式读取，不全部加载到内存）
+    request.files.add(http.MultipartFile(
       'file',
-      photo.filePath,
+      file.openRead(),
+      fileSize,
       filename: photo.fileName,
     ));
 
-    final streamedResponse = await request.send();
+    // 发送请求，监听上传进度
+    final streamedResponse = await _sendWithProgress(request, fileSize);
     final response = await http.Response.fromStream(streamedResponse);
 
     if (response.statusCode == 200) {
@@ -115,6 +128,44 @@ class SyncClient {
     } else {
       throw Exception('上传失败 (${response.statusCode}): ${response.body}');
     }
+  }
+
+  /// 发送 MultipartRequest 并监听字节进度
+  Future<http.StreamedResponse> _sendWithProgress(
+    http.MultipartRequest request,
+    int fileSize,
+  ) async {
+    final byteStream = request.finalize();
+    final totalLength = request.contentLength;
+
+    // 创建一个监听进度的包装流
+    int sent = 0;
+    int lastReport = 0;
+    final progressStream = byteStream.transform(
+      StreamTransformer<List<int>, List<int>>.fromHandlers(
+        handleData: (data, sink) {
+          sink.add(data);
+          sent += data.length;
+          // 每传输 64KB 或完成时报告
+          if (sent - lastReport > 64 * 1024 || sent >= totalLength) {
+            lastReport = sent;
+            onUploadProgress?.call(sent, totalLength);
+          }
+        },
+      ),
+    );
+
+    final streamedRequest = http.StreamedRequest(request.method, request.url);
+    streamedRequest.headers.addAll(request.headers);
+    streamedRequest.contentLength = totalLength;
+
+    progressStream.listen(
+      streamedRequest.sink.add,
+      onError: streamedRequest.sink.addError,
+      onDone: streamedRequest.sink.close,
+    );
+
+    return await _client.send(streamedRequest);
   }
 
   /// 获取磁盘空间信息
