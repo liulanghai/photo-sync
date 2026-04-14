@@ -2629,3 +2629,385 @@ Info 2026-04-14 21:00:48,175 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_
 Info 2026-04-14 21:00:48,175 v1(7) router.go:268 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Routing tool call mira_local|bash (original: bash) to MCP mira_local
 Info 2026-04-14 21:00:48,175 v1(7) router.go:60 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Routing request to MCP: id=mira_local, protocol=stdio
 Debug 2026-04-14 21:00:48,175 v1(7) mcp_stdio.go:232 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] send: {"jsonrpc":"2.0","method":"tools/call","params":{"arguments":{"command":"cd /Users/bytedance/go/src/github.com/liulanghai/photo-sync \u0026\u0026 git add -A \u0026\u0026 git commit -m \"fix: 覆写 settings.gradle 彻底修复 Kotlin/AGP 版本问题\n\n1. 直接覆写 settings.gradle 而非 sed 替换（确保格式一致）\n2. Kotlin 升级到 2.0.0，AGP 升级到 8.5.0\n3. 锁定 compileSdk=34 避免 android-36 的 aapt2 兼容问题\n4. 三个 workflow 统一修复\" \u0026\u0026 git push origin main"},"name":"bash"},"id":93}
+Debug 2026-04-14 21:00:50,757 v1(7) mcp_stdio.go:141 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] recv: 724
+Debug 2026-04-14 21:00:50,758 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=733
+Info 2026-04-14 21:00:50,758 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776171648185130780-2622611-1790
+Info 2026-04-14 21:00:50,914 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=tools/list
+Debug 2026-04-14 21:00:50,914 v1(7) mcp_stdio.go:232 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] send: {"jsonrpc":"2.0","method":"tools/list","params":{},"id":94}
+Warn 2026-04-14 21:00:50,915 v1(7) router.go:210 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Failed to get tools from MCP denghuaguang: code=-1, msg=非常抱歉，服务开小差了，请稍后重试~, inner=inner=
+mcp_proxy.(*Router).callMCP
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:389
+mcp_proxy.(*Router).handleToolsList.func1
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:200
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ Post "http://localhost:3000/mcp": dial tcp [::1]:3000: connect: connection refused
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Debug 2026-04-14 21:00:50,915 v1(7) mcp_stdio.go:141 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] recv: 6147
+Debug 2026-04-14 21:00:50,915 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=6234
+Info 2026-04-14 21:00:50,916 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776171650922429644-2622640-1690
+Info 2026-04-14 21:05:33,179 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=initialize
+Warn 2026-04-14 21:05:33,180 v1(7) router.go:138 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Failed to initialize from MCP denghuaguang: code=-1, msg=非常抱歉，服务开小差了，请稍后重试~, inner=inner=
+mcp_proxy.(*Router).callMCP
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:389
+mcp_proxy.(*Router).handleInitialize.func1
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:129
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ Post "http://localhost:3000/mcp": dial tcp [::1]:3000: connect: connection refused
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Debug 2026-04-14 21:05:33,181 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=146
+Info 2026-04-14 21:05:33,181 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776171933188403267-2624510-1826
+Info 2026-04-14 21:05:33,329 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=tools/list
+Debug 2026-04-14 21:05:33,329 v1(7) mcp_stdio.go:232 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] send: {"jsonrpc":"2.0","method":"tools/list","params":{},"id":95}
+Warn 2026-04-14 21:05:33,330 v1(7) router.go:210 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Failed to get tools from MCP denghuaguang: code=-1, msg=非常抱歉，服务开小差了，请稍后重试~, inner=inner=
+mcp_proxy.(*Router).callMCP
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:389
+mcp_proxy.(*Router).handleToolsList.func1
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:200
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ Post "http://localhost:3000/mcp": dial tcp [::1]:3000: connect: connection refused
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Debug 2026-04-14 21:05:33,337 v1(7) mcp_stdio.go:141 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] recv: 6147
+Debug 2026-04-14 21:05:33,339 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=3956
+Debug 2026-04-14 21:05:33,339 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=2278
+Info 2026-04-14 21:05:33,339 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776171933337110981-2624512-6602
+Info 2026-04-14 21:05:44,423 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=initialize
+Warn 2026-04-14 21:05:44,424 v1(7) router.go:138 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Failed to initialize from MCP denghuaguang: code=-1, msg=非常抱歉，服务开小差了，请稍后重试~, inner=inner=
+mcp_proxy.(*Router).callMCP
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:389
+mcp_proxy.(*Router).handleInitialize.func1
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:129
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ Post "http://localhost:3000/mcp": dial tcp [::1]:3000: connect: connection refused
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Debug 2026-04-14 21:05:44,427 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=146
+Info 2026-04-14 21:05:44,427 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776171944427297017-2624600-2245
+Info 2026-04-14 21:05:44,832 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=tools/call
+Info 2026-04-14 21:05:44,832 v1(7) router.go:268 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Routing tool call mira_local|bash (original: bash) to MCP mira_local
+Info 2026-04-14 21:05:44,832 v1(7) router.go:60 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Routing request to MCP: id=mira_local, protocol=stdio
+Debug 2026-04-14 21:05:44,832 v1(7) mcp_stdio.go:232 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] send: {"jsonrpc":"2.0","method":"tools/call","params":{"arguments":{"command":"cd /Users/bytedance/go/src/github.com/liulanghai/photo-sync \u0026\u0026 grep -n \"Configure Kotlin\" .github/workflows/build-all.yml | head -3"},"name":"bash"},"id":96}
+Debug 2026-04-14 21:05:44,867 v1(7) mcp_stdio.go:141 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] recv: 375
+Debug 2026-04-14 21:05:44,867 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=374
+Info 2026-04-14 21:05:44,867 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776171944842631828-2624606-6930
+Info 2026-04-14 21:06:00,051 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=initialize
+Warn 2026-04-14 21:06:00,052 v1(7) router.go:138 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Failed to initialize from MCP denghuaguang: code=-1, msg=非常抱歉，服务开小差了，请稍后重试~, inner=inner=
+mcp_proxy.(*Router).callMCP
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:389
+mcp_proxy.(*Router).handleInitialize.func1
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:129
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ Post "http://localhost:3000/mcp": dial tcp [::1]:3000: connect: connection refused
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Debug 2026-04-14 21:06:00,053 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=146
+Info 2026-04-14 21:06:00,053 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776171960061434810-2624725-4036
+Info 2026-04-14 21:06:00,533 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=tools/call
+Info 2026-04-14 21:06:00,534 v1(7) router.go:268 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Routing tool call mira_local|bash (original: bash) to MCP mira_local
+Info 2026-04-14 21:06:00,534 v1(7) router.go:60 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Routing request to MCP: id=mira_local, protocol=stdio
+Debug 2026-04-14 21:06:00,534 v1(7) mcp_stdio.go:232 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] send: {"jsonrpc":"2.0","method":"tools/call","params":{"arguments":{"command":"cd /Users/bytedance/go/src/github.com/liulanghai/photo-sync\n\n# 定义要插入的行：在 settings.gradle 覆写之后、cd app 之前，升级 gradle wrapper\nGRADLE_FIX='          # 升级 Gradle wrapper 到 8.7 以兼容 AGP 8.5.0\\\n          sed -i \"s|distributionUrl=.*|distributionUrl=https\\\\\\\\://services.gradle.org/distributions/gradle-8.7-all.zip|\" gradle/wrapper/gradle-wrapper.properties\\\n          cat gradle/wrapper/gradle-wrapper.properties'\n\n# 在三个文件中，找到 \"SETTINGS_EOF\" 后面的空行，插入 gradle wrapper 升级命令\nfor f in .github/workflows/build-all.yml .github/workflows/build-apk.yml .github/workflows/release.yml; do\n  # 用 python 精确修改\n  python3 -c \"\nimport re\nwith open('$f') as fh:\n    content = fh.read()\n\n# 在 SETTINGS_EOF 之后、cd app 之前插入 gradle wrapper 升级\nold = '''          SETTINGS_EOF\n\n          cd app'''\nnew = '''          SETTINGS_EOF\n\n          # 升级 Gradle wrapper 到 8.7 以兼容 AGP 8.5.0\n          sed -i \\\"s|distributionUrl=.*|distributionUrl=https\\\\\\\\\\\\\\\\://services.gradle.org/distributions/gradle-8.7-all.zip|\\\" gradle/wrapper/gradle-wrapper.properties\n\n          cd app'''\ncontent = content.replace(old, new)\nwith open('$f', 'w') as fh:\n    fh.write(content)\nprint(f'Updated: $f')\n\"\ndone"},"name":"bash"},"id":97}
+Debug 2026-04-14 21:06:00,656 v1(7) mcp_stdio.go:141 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] recv: 533
+Debug 2026-04-14 21:06:00,656 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=532
+Info 2026-04-14 21:06:00,656 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776171960456264994-2624729-6759
+Info 2026-04-14 21:06:00,811 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=tools/list
+Debug 2026-04-14 21:06:00,811 v1(7) mcp_stdio.go:232 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] send: {"jsonrpc":"2.0","method":"tools/list","params":{},"id":98}
+Debug 2026-04-14 21:06:00,811 v1(7) mcp_stdio.go:141 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] recv: 6147
+Warn 2026-04-14 21:06:00,811 v1(7) router.go:210 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Failed to get tools from MCP denghuaguang: code=-1, msg=非常抱歉，服务开小差了，请稍后重试~, inner=inner=
+mcp_proxy.(*Router).callMCP
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:389
+mcp_proxy.(*Router).handleToolsList.func1
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:200
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ Post "http://localhost:3000/mcp": dial tcp [::1]:3000: connect: connection refused
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Debug 2026-04-14 21:06:00,812 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=3956
+Debug 2026-04-14 21:06:00,812 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=2278
+Info 2026-04-14 21:06:00,812 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776171960821115571-2624733-8921
+Info 2026-04-14 21:06:06,324 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=initialize
+Warn 2026-04-14 21:06:06,325 v1(7) router.go:138 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Failed to initialize from MCP denghuaguang: code=-1, msg=非常抱歉，服务开小差了，请稍后重试~, inner=inner=
+mcp_proxy.(*Router).callMCP
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:389
+mcp_proxy.(*Router).handleInitialize.func1
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:129
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ Post "http://localhost:3000/mcp": dial tcp [::1]:3000: connect: connection refused
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Debug 2026-04-14 21:06:06,325 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=146
+Info 2026-04-14 21:06:06,325 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776171966335186825-2624797-6860
+Info 2026-04-14 21:06:06,765 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=tools/call
+Info 2026-04-14 21:06:06,765 v1(7) router.go:268 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Routing tool call mira_local|bash (original: bash) to MCP mira_local
+Info 2026-04-14 21:06:06,765 v1(7) router.go:60 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Routing request to MCP: id=mira_local, protocol=stdio
+Debug 2026-04-14 21:06:06,765 v1(7) mcp_stdio.go:232 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] send: {"jsonrpc":"2.0","method":"tools/call","params":{"arguments":{"command":"cd /Users/bytedance/go/src/github.com/liulanghai/photo-sync \u0026\u0026 grep -A2 \"Gradle wrapper\" .github/workflows/build-all.yml"},"name":"bash"},"id":99}
+Debug 2026-04-14 21:06:06,788 v1(7) mcp_stdio.go:141 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] recv: 282
+Debug 2026-04-14 21:06:06,788 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=281
+Info 2026-04-14 21:06:06,788 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776171966776457370-2624801-7400
+Info 2026-04-14 21:06:06,948 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=tools/list
+Debug 2026-04-14 21:06:06,949 v1(7) mcp_stdio.go:232 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] send: {"jsonrpc":"2.0","method":"tools/list","params":{},"id":100}
+Warn 2026-04-14 21:06:06,951 v1(7) router.go:210 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Failed to get tools from MCP denghuaguang: code=-1, msg=非常抱歉，服务开小差了，请稍后重试~, inner=inner=
+mcp_proxy.(*Router).callMCP
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:389
+mcp_proxy.(*Router).handleToolsList.func1
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:200
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ Post "http://localhost:3000/mcp": dial tcp [::1]:3000: connect: connection refused
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Debug 2026-04-14 21:06:06,951 v1(7) mcp_stdio.go:141 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] recv: 6148
+Debug 2026-04-14 21:06:06,952 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=3956
+Debug 2026-04-14 21:06:06,952 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=2278
+Info 2026-04-14 21:06:06,952 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776171966958052172-2624802-4559
+Info 2026-04-14 21:06:12,483 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=initialize
+Warn 2026-04-14 21:06:12,484 v1(7) router.go:138 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Failed to initialize from MCP denghuaguang: code=-1, msg=非常抱歉，服务开小差了，请稍后重试~, inner=inner=
+mcp_proxy.(*Router).callMCP
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:389
+mcp_proxy.(*Router).handleInitialize.func1
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:129
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ Post "http://localhost:3000/mcp": dial tcp [::1]:3000: connect: connection refused
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Debug 2026-04-14 21:06:12,485 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=146
+Info 2026-04-14 21:06:12,485 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776171972493367314-2624861-6
+Info 2026-04-14 21:06:12,926 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=tools/call
+Info 2026-04-14 21:06:12,926 v1(7) router.go:268 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Routing tool call mira_local|bash (original: bash) to MCP mira_local
+Info 2026-04-14 21:06:12,926 v1(7) router.go:60 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Routing request to MCP: id=mira_local, protocol=stdio
+Debug 2026-04-14 21:06:12,926 v1(7) mcp_stdio.go:232 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] send: {"jsonrpc":"2.0","method":"tools/call","params":{"arguments":{"command":"cd /Users/bytedance/go/src/github.com/liulanghai/photo-sync \u0026\u0026 grep -A2 -i \"gradle\" .github/workflows/build-all.yml | head -20"},"name":"bash"},"id":101}
+Debug 2026-04-14 21:06:12,945 v1(7) mcp_stdio.go:141 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] recv: 1551
+Debug 2026-04-14 21:06:12,946 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=1579
+Info 2026-04-14 21:06:12,946 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776171972877586946-2624864-3035
+Info 2026-04-14 21:06:13,113 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=initialize
+Warn 2026-04-14 21:06:13,115 v1(7) router.go:138 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Failed to initialize from MCP denghuaguang: code=-1, msg=非常抱歉，服务开小差了，请稍后重试~, inner=inner=
+mcp_proxy.(*Router).callMCP
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:389
+mcp_proxy.(*Router).handleInitialize.func1
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:129
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ Post "http://localhost:3000/mcp": dial tcp [::1]:3000: connect: connection refused
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Debug 2026-04-14 21:06:13,115 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=146
+Info 2026-04-14 21:06:13,115 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776171973125121789-2624869-5239
+Info 2026-04-14 21:06:13,259 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=tools/list
+Debug 2026-04-14 21:06:13,262 v1(7) mcp_stdio.go:232 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] send: {"jsonrpc":"2.0","method":"tools/list","params":{},"id":102}
+Warn 2026-04-14 21:06:13,263 v1(7) router.go:210 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Failed to get tools from MCP denghuaguang: code=-1, msg=非常抱歉，服务开小差了，请稍后重试~, inner=inner=
+mcp_proxy.(*Router).callMCP
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:389
+mcp_proxy.(*Router).handleToolsList.func1
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:200
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ Post "http://localhost:3000/mcp": dial tcp [::1]:3000: connect: connection refused
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Debug 2026-04-14 21:06:13,263 v1(7) mcp_stdio.go:141 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] recv: 6148
+Debug 2026-04-14 21:06:13,264 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=3956
+Debug 2026-04-14 21:06:13,264 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=2278
+Info 2026-04-14 21:06:13,264 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776171973270260428-2624870-6770
+Info 2026-04-14 21:06:20,505 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=initialize
+Warn 2026-04-14 21:06:20,506 v1(7) router.go:138 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Failed to initialize from MCP denghuaguang: code=-1, msg=非常抱歉，服务开小差了，请稍后重试~, inner=inner=
+mcp_proxy.(*Router).callMCP
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:389
+mcp_proxy.(*Router).handleInitialize.func1
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:129
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ Post "http://localhost:3000/mcp": dial tcp [::1]:3000: connect: connection refused
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Debug 2026-04-14 21:06:20,506 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=146
+Info 2026-04-14 21:06:20,506 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776171980342206128-2624950-8760
+Info 2026-04-14 21:06:21,081 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=tools/call
+Info 2026-04-14 21:06:21,081 v1(7) router.go:268 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Routing tool call mira_local|bash (original: bash) to MCP mira_local
+Info 2026-04-14 21:06:21,081 v1(7) router.go:60 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Routing request to MCP: id=mira_local, protocol=stdio
+Debug 2026-04-14 21:06:21,081 v1(7) mcp_stdio.go:232 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] send: {"jsonrpc":"2.0","method":"tools/call","params":{"arguments":{"command":"cd /Users/bytedance/go/src/github.com/liulanghai/photo-sync \u0026\u0026 grep -n \"SETTINGS_EOF\\|cd app\" .github/workflows/build-all.yml"},"name":"bash"},"id":103}
+Debug 2026-04-14 21:06:21,100 v1(7) mcp_stdio.go:141 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] recv: 1128
+Debug 2026-04-14 21:06:21,101 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=1176
+Info 2026-04-14 21:06:21,101 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776171981090596795-2624964-2176
+Info 2026-04-14 21:06:21,267 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=initialize
+Warn 2026-04-14 21:06:21,268 v1(7) router.go:138 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Failed to initialize from MCP denghuaguang: code=-1, msg=非常抱歉，服务开小差了，请稍后重试~, inner=inner=
+mcp_proxy.(*Router).callMCP
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:389
+mcp_proxy.(*Router).handleInitialize.func1
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:129
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ Post "http://localhost:3000/mcp": dial tcp [::1]:3000: connect: connection refused
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Debug 2026-04-14 21:06:21,268 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=146
+Info 2026-04-14 21:06:21,268 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776171981279398500-2624965-4750
+Info 2026-04-14 21:06:21,414 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=tools/list
+Debug 2026-04-14 21:06:21,414 v1(7) mcp_stdio.go:232 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] send: {"jsonrpc":"2.0","method":"tools/list","params":{},"id":104}
+Warn 2026-04-14 21:06:21,416 v1(7) router.go:210 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Failed to get tools from MCP denghuaguang: code=-1, msg=非常抱歉，服务开小差了，请稍后重试~, inner=inner=
+mcp_proxy.(*Router).callMCP
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:389
+mcp_proxy.(*Router).handleToolsList.func1
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:200
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ Post "http://localhost:3000/mcp": dial tcp [::1]:3000: connect: connection refused
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Debug 2026-04-14 21:06:21,417 v1(7) mcp_stdio.go:141 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] recv: 6148
+Debug 2026-04-14 21:06:21,417 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=3956
+Debug 2026-04-14 21:06:21,417 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=2278
+Info 2026-04-14 21:06:21,418 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776171981425449988-2624967-9173
+Info 2026-04-14 21:06:27,475 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=initialize
+Warn 2026-04-14 21:06:27,477 v1(7) router.go:138 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Failed to initialize from MCP denghuaguang: code=-1, msg=非常抱歉，服务开小差了，请稍后重试~, inner=inner=
+mcp_proxy.(*Router).callMCP
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:389
+mcp_proxy.(*Router).handleInitialize.func1
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:129
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ Post "http://localhost:3000/mcp": dial tcp [::1]:3000: connect: connection refused
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Debug 2026-04-14 21:06:27,477 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=146
+Info 2026-04-14 21:06:27,477 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776171987486402719-2625044-9058
+Info 2026-04-14 21:06:27,856 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=tools/call
+Info 2026-04-14 21:06:27,856 v1(7) router.go:268 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Routing tool call mira_local|bash (original: bash) to MCP mira_local
+Info 2026-04-14 21:06:27,856 v1(7) router.go:60 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Routing request to MCP: id=mira_local, protocol=stdio
+Debug 2026-04-14 21:06:27,856 v1(7) mcp_stdio.go:232 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] send: {"jsonrpc":"2.0","method":"tools/call","params":{"arguments":{"command":"cd /Users/bytedance/go/src/github.com/liulanghai/photo-sync \u0026\u0026 sed -n '88,92p' .github/workflows/build-all.yml | cat -A"},"name":"bash"},"id":105}
+Debug 2026-04-14 21:06:27,875 v1(7) mcp_stdio.go:141 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] recv: 407
+Debug 2026-04-14 21:06:27,875 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=405
+Info 2026-04-14 21:06:27,875 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776171987867535524-2625049-2720
+Info 2026-04-14 21:06:28,026 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=tools/list
+Debug 2026-04-14 21:06:28,026 v1(7) mcp_stdio.go:232 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] send: {"jsonrpc":"2.0","method":"tools/list","params":{},"id":106}
+Warn 2026-04-14 21:06:28,028 v1(7) router.go:210 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Failed to get tools from MCP denghuaguang: code=-1, msg=非常抱歉，服务开小差了，请稍后重试~, inner=inner=
+mcp_proxy.(*Router).callMCP
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:389
+mcp_proxy.(*Router).handleToolsList.func1
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:200
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ Post "http://localhost:3000/mcp": dial tcp [::1]:3000: connect: connection refused
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Debug 2026-04-14 21:06:28,028 v1(7) mcp_stdio.go:141 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] recv: 6148
+Debug 2026-04-14 21:06:28,029 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=3956
+Debug 2026-04-14 21:06:28,029 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=2278
+Info 2026-04-14 21:06:28,029 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776171988038179698-2625053-102
+Info 2026-04-14 21:06:33,379 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=initialize
+Warn 2026-04-14 21:06:33,380 v1(7) router.go:138 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Failed to initialize from MCP denghuaguang: code=-1, msg=非常抱歉，服务开小差了，请稍后重试~, inner=inner=
+mcp_proxy.(*Router).callMCP
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:389
+mcp_proxy.(*Router).handleInitialize.func1
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:129
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ Post "http://localhost:3000/mcp": dial tcp [::1]:3000: connect: connection refused
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Debug 2026-04-14 21:06:33,381 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=146
+Info 2026-04-14 21:06:33,381 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776171993390337341-2625091-6014
+Info 2026-04-14 21:06:33,899 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=tools/call
+Info 2026-04-14 21:06:33,899 v1(7) router.go:268 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Routing tool call mira_local|bash (original: bash) to MCP mira_local
+Info 2026-04-14 21:06:33,899 v1(7) router.go:60 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Routing request to MCP: id=mira_local, protocol=stdio
+Debug 2026-04-14 21:06:33,899 v1(7) mcp_stdio.go:232 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] send: {"jsonrpc":"2.0","method":"tools/call","params":{"arguments":{"command":"cd /Users/bytedance/go/src/github.com/liulanghai/photo-sync \u0026\u0026 sed -n '88,92p' .github/workflows/build-all.yml | od -c | head -20"},"name":"bash"},"id":107}
+Debug 2026-04-14 21:06:33,923 v1(7) mcp_stdio.go:141 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] recv: 1830
+Debug 2026-04-14 21:06:33,924 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=1828
+Info 2026-04-14 21:06:33,924 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776171993908653327-2625097-1131
+Info 2026-04-14 21:06:34,076 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=tools/list
+Debug 2026-04-14 21:06:34,076 v1(7) mcp_stdio.go:232 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] send: {"jsonrpc":"2.0","method":"tools/list","params":{},"id":108}
+Warn 2026-04-14 21:06:34,077 v1(7) router.go:210 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Failed to get tools from MCP denghuaguang: code=-1, msg=非常抱歉，服务开小差了，请稍后重试~, inner=inner=
+mcp_proxy.(*Router).callMCP
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:389
+mcp_proxy.(*Router).handleToolsList.func1
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:200
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ Post "http://localhost:3000/mcp": dial tcp [::1]:3000: connect: connection refused
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Debug 2026-04-14 21:06:34,078 v1(7) mcp_stdio.go:141 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] recv: 6148
+Debug 2026-04-14 21:06:34,078 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=3956
+Debug 2026-04-14 21:06:34,079 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=2278
+Info 2026-04-14 21:06:34,079 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776171994087105638-2625099-8872
+Info 2026-04-14 21:06:45,646 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=initialize
+Warn 2026-04-14 21:06:45,648 v1(7) router.go:138 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Failed to initialize from MCP denghuaguang: code=-1, msg=非常抱歉，服务开小差了，请稍后重试~, inner=inner=
+mcp_proxy.(*Router).callMCP
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:389
+mcp_proxy.(*Router).handleInitialize.func1
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:129
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ Post "http://localhost:3000/mcp": dial tcp [::1]:3000: connect: connection refused
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Debug 2026-04-14 21:06:45,648 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=146
+Info 2026-04-14 21:06:45,648 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776172005656056431-2625218-446
+Info 2026-04-14 21:06:46,102 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=tools/call
+Info 2026-04-14 21:06:46,102 v1(7) router.go:268 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Routing tool call mira_local|bash (original: bash) to MCP mira_local
+Info 2026-04-14 21:06:46,102 v1(7) router.go:60 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Routing request to MCP: id=mira_local, protocol=stdio
+Debug 2026-04-14 21:06:46,102 v1(7) mcp_stdio.go:232 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] send: {"jsonrpc":"2.0","method":"tools/call","params":{"arguments":{"command":"python3 \u003c\u003c 'PYEOF'\nimport os\n\nbase = '/Users/bytedance/go/src/github.com/liulanghai/photo-sync/.github/workflows'\n\nfor fname in ['build-all.yml', 'build-apk.yml', 'release.yml']:\n    fpath = os.path.join(base, fname)\n    with open(fpath) as f:\n        lines = f.readlines()\n    \n    new_lines = []\n    i = 0\n    while i \u003c len(lines):\n        new_lines.append(lines[i])\n        # 找到 SETTINGS_EOF 那行后，插入 gradle wrapper 升级\n        if lines[i].strip() == 'SETTINGS_EOF':\n            new_lines.append('\\n')\n            new_lines.append('          # 升级 Gradle wrapper 到 8.7 以兼容 AGP 8.5.0\\n')\n            new_lines.append('          sed -i \"s|distributionUrl=.*|distributionUrl=https\\\\\\\\://services.gradle.org/distributions/gradle-8.7-all.zip|\" gradle/wrapper/gradle-wrapper.properties\\n')\n        i += 1\n    \n    with open(fpath, 'w') as f:\n        f.writelines(new_lines)\n    print(f'Patched {fname}')\nPYEOF"},"name":"bash"},"id":109}
+Debug 2026-04-14 21:06:46,183 v1(7) mcp_stdio.go:141 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] recv: 420
+Debug 2026-04-14 21:06:46,183 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=418
+Info 2026-04-14 21:06:46,183 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776172006063549063-2625223-9081
+Info 2026-04-14 21:06:46,336 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=tools/list
+Debug 2026-04-14 21:06:46,337 v1(7) mcp_stdio.go:232 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] send: {"jsonrpc":"2.0","method":"tools/list","params":{},"id":110}
+Warn 2026-04-14 21:06:46,337 v1(7) router.go:210 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Failed to get tools from MCP denghuaguang: code=-1, msg=非常抱歉，服务开小差了，请稍后重试~, inner=inner=
+mcp_proxy.(*Router).callMCP
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:389
+mcp_proxy.(*Router).handleToolsList.func1
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:200
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ Post "http://localhost:3000/mcp": dial tcp [::1]:3000: connect: connection refused
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Debug 2026-04-14 21:06:46,337 v1(7) mcp_stdio.go:141 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] recv: 6148
+Debug 2026-04-14 21:06:46,338 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=3956
+Debug 2026-04-14 21:06:46,338 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=2278
+Info 2026-04-14 21:06:46,338 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776172006348028656-2625227-4299
+Info 2026-04-14 21:06:52,116 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=initialize
+Warn 2026-04-14 21:06:52,116 v1(7) router.go:138 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Failed to initialize from MCP denghuaguang: code=-1, msg=非常抱歉，服务开小差了，请稍后重试~, inner=inner=
+mcp_proxy.(*Router).callMCP
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:389
+mcp_proxy.(*Router).handleInitialize.func1
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:129
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ Post "http://localhost:3000/mcp": dial tcp [::1]:3000: connect: connection refused
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Debug 2026-04-14 21:06:52,117 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=146
+Info 2026-04-14 21:06:52,117 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776172012126454572-2625277-539
+Info 2026-04-14 21:06:52,709 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=tools/call
+Info 2026-04-14 21:06:52,709 v1(7) router.go:268 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Routing tool call mira_local|bash (original: bash) to MCP mira_local
+Info 2026-04-14 21:06:52,709 v1(7) router.go:60 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Routing request to MCP: id=mira_local, protocol=stdio
+Debug 2026-04-14 21:06:52,709 v1(7) mcp_stdio.go:232 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] send: {"jsonrpc":"2.0","method":"tools/call","params":{"arguments":{"command":"cd /Users/bytedance/go/src/github.com/liulanghai/photo-sync \u0026\u0026 sed -n '86,96p' .github/workflows/build-all.yml"},"name":"bash"},"id":111}
+Debug 2026-04-14 21:06:52,734 v1(7) mcp_stdio.go:141 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] recv: 1320
+Debug 2026-04-14 21:06:52,734 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=1318
+Info 2026-04-14 21:06:52,734 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776172012720465177-2625285-1325
+Info 2026-04-14 21:07:00,492 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=initialize
+Warn 2026-04-14 21:07:00,493 v1(7) router.go:138 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Failed to initialize from MCP denghuaguang: code=-1, msg=非常抱歉，服务开小差了，请稍后重试~, inner=inner=
+mcp_proxy.(*Router).callMCP
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:389
+mcp_proxy.(*Router).handleInitialize.func1
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:129
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ Post "http://localhost:3000/mcp": dial tcp [::1]:3000: connect: connection refused
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Debug 2026-04-14 21:07:00,494 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=146
+Info 2026-04-14 21:07:00,494 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776172020503853379-2625379-1191
+Info 2026-04-14 21:07:00,888 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=tools/call
+Info 2026-04-14 21:07:00,888 v1(7) router.go:268 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Routing tool call mira_local|bash (original: bash) to MCP mira_local
+Info 2026-04-14 21:07:00,888 v1(7) router.go:60 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Routing request to MCP: id=mira_local, protocol=stdio
+Debug 2026-04-14 21:07:00,888 v1(7) mcp_stdio.go:232 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] send: {"jsonrpc":"2.0","method":"tools/call","params":{"arguments":{"command":"cd /Users/bytedance/go/src/github.com/liulanghai/photo-sync \u0026\u0026 git add -A \u0026\u0026 git commit -m \"fix: 升级 Gradle wrapper 7.6.3 -\u003e 8.7 以兼容 AGP 8.5.0\n\nAGP 8.5.0 要求最低 Gradle 8.7，flutter create 默认生成 7.6.3。\n在 CI 中通过 sed 修改 gradle-wrapper.properties 的 distributionUrl。\" \u0026\u0026 git push origin main"},"name":"bash"},"id":112}

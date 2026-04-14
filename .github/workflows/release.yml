@@ -122,6 +122,12 @@ jobs:
           include ":app"
           SETTINGS_EOF
 
+          # 升级 Gradle wrapper 到 8.7 以兼容 AGP 8.5.0
+          sed -i "s|distributionUrl=.*|distributionUrl=https\\://services.gradle.org/distributions/gradle-8.7-all.zip|" gradle/wrapper/gradle-wrapper.properties
+
+          # 升级 Gradle wrapper 到 8.7 以兼容 AGP 8.5.0
+          sed -i "s|distributionUrl=.*|distributionUrl=https\\://services.gradle.org/distributions/gradle-8.7-all.zip|" gradle/wrapper/gradle-wrapper.properties
+
           cd app
           sed -i 's/minSdk\s*=\s*[0-9]*/minSdk = 21/' build.gradle
           sed -i 's/targetSdk\s*=\s*[0-9]*/targetSdk = 34/' build.gradle
