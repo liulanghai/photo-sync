@@ -1,7 +1,6 @@
 name: Release APK
 
 on:
-  # 打 tag 时自动构建并发布
   push:
     tags:
       - 'v*'
@@ -91,9 +90,12 @@ jobs:
           </manifest>
           MANIFEST_EOF
 
-      - name: Configure build.gradle
+      - name: Configure Kotlin and Gradle
         run: |
-          cd app_mobile/android/app
+          cd app_mobile/android
+          sed -i 's/org.jetbrains.kotlin.android" version "[^"]*"/org.jetbrains.kotlin.android" version "1.9.22"/' settings.gradle
+          sed -i 's/ext.kotlin_version = .*/ext.kotlin_version = "1.9.22"/' build.gradle || true
+          cd app
           sed -i 's/minSdk = .*/minSdk = 21/' build.gradle
           sed -i 's/targetSdk = .*/targetSdk = 34/' build.gradle
           sed -i 's/compileSdk = .*/compileSdk = 34/' build.gradle

@@ -5,7 +5,6 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
-  # 支持手动触发
   workflow_dispatch:
 
 jobs:
@@ -15,18 +14,15 @@ jobs:
     timeout-minutes: 30
 
     steps:
-      # 1. 检出代码
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. 安装 Java (Android 编译需要)
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
 
-      # 3. 安装 Flutter
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -34,19 +30,16 @@ jobs:
           channel: 'stable'
           cache: true
 
-      # 4. 安装核心库依赖
       - name: Install core dependencies
         run: |
           cd packages/photo_sync_core
           dart pub get
 
-      # 5. 安装手机端依赖
       - name: Install mobile dependencies
         run: |
           cd app_mobile
           flutter pub get
 
-      # 6. 生成 Android 平台文件（如果不存在）
       - name: Create Android platform files
         run: |
           cd app_mobile
@@ -54,7 +47,6 @@ jobs:
             flutter create --platforms=android .
           fi
 
-      # 7. 覆盖 Android 配置
       - name: Configure Android manifest
         run: |
           cat > app_mobile/android/app/src/main/AndroidManifest.xml << 'MANIFEST_EOF'
@@ -106,29 +98,32 @@ jobs:
           </manifest>
           MANIFEST_EOF
 
-      # 8. 配置 build.gradle (设置 minSdk, targetSdk, applicationId)
-      - name: Configure build.gradle
+      - name: Configure Kotlin and Gradle
         run: |
-          cd app_mobile/android/app
+          cd app_mobile/android
+          # 升级 Kotlin 版本到 1.9.22 以兼容 shared_preferences_android 2.4.7
+          sed -i 's/org.jetbrains.kotlin.android" version "[^"]*"/org.jetbrains.kotlin.android" version "1.9.22"/' settings.gradle
+          sed -i 's/ext.kotlin_version = .*/ext.kotlin_version = "1.9.22"/' build.gradle || true
+          cd app
           sed -i 's/minSdk = .*/minSdk = 21/' build.gradle
           sed -i 's/targetSdk = .*/targetSdk = 34/' build.gradle
           sed -i 's/compileSdk = .*/compileSdk = 34/' build.gradle
-          # 修改 applicationId
           sed -i 's/applicationId = .*/applicationId = "com.photosync.app"/' build.gradle || true
+          echo "=== settings.gradle kotlin version ==="
+          grep -i kotlin ../settings.gradle || true
+          echo "=== app/build.gradle sdk versions ==="
+          grep -E '(minSdk|targetSdk|compileSdk)' build.gradle || true
 
-      # 9. 编译 Debug APK
       - name: Build Debug APK
         run: |
           cd app_mobile
           flutter build apk --debug
 
-      # 10. 编译 Release APK
       - name: Build Release APK
         run: |
           cd app_mobile
           flutter build apk --release
 
-      # 11. 上传 APK 产物
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
         with:
@@ -143,7 +138,6 @@ jobs:
           path: app_mobile/build/app/outputs/flutter-apk/app-release.apk
           retention-days: 30
 
-      # 12. 输出 APK 信息
       - name: APK Info
         run: |
           echo "=== Debug APK ==="

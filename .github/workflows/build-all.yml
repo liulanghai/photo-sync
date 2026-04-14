@@ -54,13 +54,23 @@ jobs:
               <queries><intent><action android:name="android.intent.action.PROCESS_TEXT"/><data android:mimeType="text/plain"/></intent></queries>
           </manifest>
           MANIFEST_EOF
-      - name: Configure build.gradle
+      - name: Configure Kotlin and Gradle
         run: |
-          cd app_mobile/android/app
+          cd app_mobile/android
+          # 升级 Kotlin 版本到 1.9.22 以兼容 shared_preferences_android 2.4.7
+          sed -i 's/org.jetbrains.kotlin.android" version "[^"]*"/org.jetbrains.kotlin.android" version "1.9.22"/' settings.gradle
+          # 兼容旧格式 build.gradle 中的 ext.kotlin_version
+          sed -i 's/ext.kotlin_version = .*/ext.kotlin_version = "1.9.22"/' build.gradle || true
+          cd app
           sed -i 's/minSdk = .*/minSdk = 21/' build.gradle
           sed -i 's/targetSdk = .*/targetSdk = 34/' build.gradle
           sed -i 's/compileSdk = .*/compileSdk = 34/' build.gradle
           sed -i 's/applicationId = .*/applicationId = "com.photosync.app"/' build.gradle || true
+          # 打印确认
+          echo "=== settings.gradle kotlin version ==="
+          grep -i kotlin ../settings.gradle || true
+          echo "=== app/build.gradle sdk versions ==="
+          grep -E '(minSdk|targetSdk|compileSdk)' build.gradle || true
       - name: Build Release APK
         run: cd app_mobile && flutter build apk --release
       - uses: actions/upload-artifact@v4
