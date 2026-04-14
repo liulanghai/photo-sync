@@ -1617,3 +1617,497 @@ Info 2026-04-14 19:56:43,679 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_
 Info 2026-04-14 19:56:43,679 v1(7) router.go:268 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Routing tool call mira_local|bash (original: bash) to MCP mira_local
 Info 2026-04-14 19:56:43,679 v1(7) router.go:60 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Routing request to MCP: id=mira_local, protocol=stdio
 Debug 2026-04-14 19:56:43,679 v1(7) mcp_stdio.go:232 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] send: {"jsonrpc":"2.0","method":"tools/call","params":{"arguments":{"command":"cd /Users/bytedance/go/src/github.com/liulanghai/photo-sync \u0026\u0026 git add -A \u0026\u0026 git commit -m \"fix: 修复4个编译错误\n\n1. sync_record.dart: import 语句移到文件顶部（不能在声明之后）\n2. sync_task.dart: 添加 import photo_info.dart，修复 PhotoInfo 类型未找到\n3. photo_scanner.dart: asset.size 返回 Size 对象，改用 file.length() 获取 int\n4. sync_engine.dart: += 导致 double 赋值给 int，改用显式赋值\" \u0026\u0026 git push origin main"},"name":"bash"},"id":60}
+Debug 2026-04-14 19:56:46,121 v1(7) mcp_stdio.go:141 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] recv: 713
+Debug 2026-04-14 19:56:46,121 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=722
+Info 2026-04-14 19:56:46,121 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776167803677651538-2722354-1189
+[Metrics(v4)] Client: blade.mira.tunnel of Tenant: default skipped 4 intervals. send time: 2026-04-14 19:58:30 +0800 CST, actual time: 2026-04-14 20:00:32.004071 +0800 CST m=+450.007484126
+Error 2026-04-14 20:01:02,786 v1(7) client.go:286 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] metrics report err=inner=
+bridge_client.(*Client).postMetrics
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:327
+bridge_client.(*Client).reportMetrics
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:285
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ Post "https://mira.byteintl.net/bridge/metrics": dial tcp 10.122.103.168:443: i/o timeout
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Error 2026-04-14 20:02:02,638 v1(7) client.go:79 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] connect err=inner=
+bridge_client.(*Client).connect
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:158
+bridge_client.(*Client).Start
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:78
+cmd.runAgent.func2
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/agent/cmd/run.go:126
+errgroup.(*Group).Go.func1
+	/Users/bytedance/go/pkg/mod/golang.org/x/sync@v0.19.0/errgroup/errgroup.go:93
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ read tcp 10.4.24.63:63328->10.122.103.168:443: read: connection reset by peer
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Error 2026-04-14 20:02:04,643 v1(7) client.go:74 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] init err=inner=
+bridge_client.(*Client).init
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:116
+bridge_client.(*Client).Start
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:69
+cmd.runAgent.func2
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/agent/cmd/run.go:126
+errgroup.(*Group).Go.func1
+	/Users/bytedance/go/pkg/mod/golang.org/x/sync@v0.19.0/errgroup/errgroup.go:93
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ dial tcp 10.122.103.168:443: i/o timeout
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Error 2026-04-14 20:02:06,644 v1(7) client.go:74 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] init err=inner=
+bridge_client.(*Client).init
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:116
+bridge_client.(*Client).Start
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:69
+cmd.runAgent.func2
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/agent/cmd/run.go:126
+errgroup.(*Group).Go.func1
+	/Users/bytedance/go/pkg/mod/golang.org/x/sync@v0.19.0/errgroup/errgroup.go:93
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ dial tcp: lookup mira.byteintl.net: i/o timeout
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Error 2026-04-14 20:02:08,646 v1(7) client.go:74 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] init err=inner=
+bridge_client.(*Client).init
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:116
+bridge_client.(*Client).Start
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:69
+cmd.runAgent.func2
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/agent/cmd/run.go:126
+errgroup.(*Group).Go.func1
+	/Users/bytedance/go/pkg/mod/golang.org/x/sync@v0.19.0/errgroup/errgroup.go:93
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ dial tcp: lookup mira.byteintl.net: i/o timeout
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Error 2026-04-14 20:02:10,647 v1(7) client.go:74 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] init err=inner=
+bridge_client.(*Client).init
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:116
+bridge_client.(*Client).Start
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:69
+cmd.runAgent.func2
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/agent/cmd/run.go:126
+errgroup.(*Group).Go.func1
+	/Users/bytedance/go/pkg/mod/golang.org/x/sync@v0.19.0/errgroup/errgroup.go:93
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ dial tcp: lookup mira.byteintl.net: i/o timeout
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Error 2026-04-14 20:02:12,648 v1(7) client.go:74 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] init err=inner=
+bridge_client.(*Client).init
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:116
+bridge_client.(*Client).Start
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:69
+cmd.runAgent.func2
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/agent/cmd/run.go:126
+errgroup.(*Group).Go.func1
+	/Users/bytedance/go/pkg/mod/golang.org/x/sync@v0.19.0/errgroup/errgroup.go:93
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ dial tcp: lookup mira.byteintl.net: i/o timeout
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Error 2026-04-14 20:02:14,651 v1(7) client.go:74 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] init err=inner=
+bridge_client.(*Client).init
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:116
+bridge_client.(*Client).Start
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:69
+cmd.runAgent.func2
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/agent/cmd/run.go:126
+errgroup.(*Group).Go.func1
+	/Users/bytedance/go/pkg/mod/golang.org/x/sync@v0.19.0/errgroup/errgroup.go:93
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ dial tcp: lookup mira.byteintl.net: i/o timeout
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Error 2026-04-14 20:02:16,653 v1(7) client.go:74 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] init err=inner=
+bridge_client.(*Client).init
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:116
+bridge_client.(*Client).Start
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:69
+cmd.runAgent.func2
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/agent/cmd/run.go:126
+errgroup.(*Group).Go.func1
+	/Users/bytedance/go/pkg/mod/golang.org/x/sync@v0.19.0/errgroup/errgroup.go:93
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ dial tcp: lookup mira.byteintl.net: i/o timeout
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Error 2026-04-14 20:02:18,720 v1(7) client.go:74 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] init err=inner=
+bridge_client.(*Client).init
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:116
+bridge_client.(*Client).Start
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:69
+cmd.runAgent.func2
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/agent/cmd/run.go:126
+errgroup.(*Group).Go.func1
+	/Users/bytedance/go/pkg/mod/golang.org/x/sync@v0.19.0/errgroup/errgroup.go:93
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ dial tcp: lookup mira.byteintl.net: i/o timeout
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Error 2026-04-14 20:02:20,722 v1(7) client.go:74 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] init err=inner=
+bridge_client.(*Client).init
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:116
+bridge_client.(*Client).Start
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:69
+cmd.runAgent.func2
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/agent/cmd/run.go:126
+errgroup.(*Group).Go.func1
+	/Users/bytedance/go/pkg/mod/golang.org/x/sync@v0.19.0/errgroup/errgroup.go:93
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ dial tcp: lookup mira.byteintl.net: i/o timeout
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Error 2026-04-14 20:02:22,724 v1(7) client.go:74 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] init err=inner=
+bridge_client.(*Client).init
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:116
+bridge_client.(*Client).Start
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:69
+cmd.runAgent.func2
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/agent/cmd/run.go:126
+errgroup.(*Group).Go.func1
+	/Users/bytedance/go/pkg/mod/golang.org/x/sync@v0.19.0/errgroup/errgroup.go:93
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ dial tcp: lookup mira.byteintl.net: i/o timeout
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Error 2026-04-14 20:02:24,726 v1(7) client.go:74 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] init err=inner=
+bridge_client.(*Client).init
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:116
+bridge_client.(*Client).Start
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:69
+cmd.runAgent.func2
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/agent/cmd/run.go:126
+errgroup.(*Group).Go.func1
+	/Users/bytedance/go/pkg/mod/golang.org/x/sync@v0.19.0/errgroup/errgroup.go:93
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ dial tcp: lookup mira.byteintl.net: i/o timeout
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Error 2026-04-14 20:02:26,727 v1(7) client.go:74 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] init err=inner=
+bridge_client.(*Client).init
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:116
+bridge_client.(*Client).Start
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:69
+cmd.runAgent.func2
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/agent/cmd/run.go:126
+errgroup.(*Group).Go.func1
+	/Users/bytedance/go/pkg/mod/golang.org/x/sync@v0.19.0/errgroup/errgroup.go:93
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ dial tcp: lookup mira.byteintl.net: i/o timeout
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Error 2026-04-14 20:02:28,728 v1(7) client.go:74 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] init err=inner=
+bridge_client.(*Client).init
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:116
+bridge_client.(*Client).Start
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:69
+cmd.runAgent.func2
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/agent/cmd/run.go:126
+errgroup.(*Group).Go.func1
+	/Users/bytedance/go/pkg/mod/golang.org/x/sync@v0.19.0/errgroup/errgroup.go:93
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ dial tcp: lookup mira.byteintl.net: i/o timeout
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Error 2026-04-14 20:02:30,729 v1(7) client.go:74 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] init err=inner=
+bridge_client.(*Client).init
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:116
+bridge_client.(*Client).Start
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:69
+cmd.runAgent.func2
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/agent/cmd/run.go:126
+errgroup.(*Group).Go.func1
+	/Users/bytedance/go/pkg/mod/golang.org/x/sync@v0.19.0/errgroup/errgroup.go:93
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ dial tcp: lookup mira.byteintl.net: i/o timeout
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Error 2026-04-14 20:02:32,730 v1(7) client.go:74 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] init err=inner=
+bridge_client.(*Client).init
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:116
+bridge_client.(*Client).Start
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:69
+cmd.runAgent.func2
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/agent/cmd/run.go:126
+errgroup.(*Group).Go.func1
+	/Users/bytedance/go/pkg/mod/golang.org/x/sync@v0.19.0/errgroup/errgroup.go:93
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ dial tcp: lookup mira.byteintl.net: i/o timeout
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Error 2026-04-14 20:02:34,732 v1(7) client.go:74 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] init err=inner=
+bridge_client.(*Client).init
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:116
+bridge_client.(*Client).Start
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:69
+cmd.runAgent.func2
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/agent/cmd/run.go:126
+errgroup.(*Group).Go.func1
+	/Users/bytedance/go/pkg/mod/golang.org/x/sync@v0.19.0/errgroup/errgroup.go:93
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ dial tcp: lookup mira.byteintl.net: i/o timeout
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Error 2026-04-14 20:02:36,734 v1(7) client.go:74 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] init err=inner=
+bridge_client.(*Client).init
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:116
+bridge_client.(*Client).Start
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:69
+cmd.runAgent.func2
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/agent/cmd/run.go:126
+errgroup.(*Group).Go.func1
+	/Users/bytedance/go/pkg/mod/golang.org/x/sync@v0.19.0/errgroup/errgroup.go:93
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ dial tcp: lookup mira.byteintl.net: i/o timeout
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Error 2026-04-14 20:20:14,080 v1(7) client.go:74 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] init err=inner=
+bridge_client.(*Client).init
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:116
+bridge_client.(*Client).Start
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:69
+cmd.runAgent.func2
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/agent/cmd/run.go:126
+errgroup.(*Group).Go.func1
+	/Users/bytedance/go/pkg/mod/golang.org/x/sync@v0.19.0/errgroup/errgroup.go:93
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ dial tcp: lookup mira.byteintl.net: i/o timeout
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Error 2026-04-14 20:20:16,081 v1(7) client.go:74 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] init err=inner=
+bridge_client.(*Client).init
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:116
+bridge_client.(*Client).Start
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:69
+cmd.runAgent.func2
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/agent/cmd/run.go:126
+errgroup.(*Group).Go.func1
+	/Users/bytedance/go/pkg/mod/golang.org/x/sync@v0.19.0/errgroup/errgroup.go:93
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ dial tcp: lookup mira.byteintl.net: i/o timeout
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Error 2026-04-14 20:20:18,084 v1(7) client.go:74 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] init err=inner=
+bridge_client.(*Client).init
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:116
+bridge_client.(*Client).Start
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:69
+cmd.runAgent.func2
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/agent/cmd/run.go:126
+errgroup.(*Group).Go.func1
+	/Users/bytedance/go/pkg/mod/golang.org/x/sync@v0.19.0/errgroup/errgroup.go:93
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ dial tcp: lookup mira.byteintl.net: i/o timeout
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+[Metrics(v4)] Client: blade.mira.tunnel of Tenant: default skipped 60 intervals. send time: 2026-04-14 20:02:30 +0800 CST, actual time: 2026-04-14 20:32:45.261873 +0800 CST m=+540.007474668
+Error 2026-04-14 20:32:46,038 v1(7) client.go:74 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] init err=inner=
+bridge_client.(*Client).init
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:116
+bridge_client.(*Client).Start
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:69
+cmd.runAgent.func2
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/agent/cmd/run.go:126
+errgroup.(*Group).Go.func1
+	/Users/bytedance/go/pkg/mod/golang.org/x/sync@v0.19.0/errgroup/errgroup.go:93
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ dial tcp: lookup mira.byteintl.net: i/o timeout
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Error 2026-04-14 20:32:48,041 v1(7) client.go:74 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] init err=inner=
+bridge_client.(*Client).init
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:116
+bridge_client.(*Client).Start
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/bridge_client/client.go:69
+cmd.runAgent.func2
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/agent/cmd/run.go:126
+errgroup.(*Group).Go.func1
+	/Users/bytedance/go/pkg/mod/golang.org/x/sync@v0.19.0/errgroup/errgroup.go:93
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ dial tcp: lookup mira.byteintl.net: i/o timeout
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Info 2026-04-14 20:32:49,812 v1(7) client.go:152 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] connected to wss://mira.byteintl.net/bridge/ws
+Info 2026-04-14 20:35:16,136 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=initialize
+Warn 2026-04-14 20:35:16,137 v1(7) router.go:138 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Failed to initialize from MCP denghuaguang: code=-1, msg=非常抱歉，服务开小差了，请稍后重试~, inner=inner=
+mcp_proxy.(*Router).callMCP
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:389
+mcp_proxy.(*Router).handleInitialize.func1
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:129
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ Post "http://localhost:3000/mcp": dial tcp [::1]:3000: connect: connection refused
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Debug 2026-04-14 20:35:16,138 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=146
+Info 2026-04-14 20:35:16,138 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776170116128197753-2737283-3237
+Info 2026-04-14 20:35:16,283 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=tools/list
+Debug 2026-04-14 20:35:16,284 v1(7) mcp_stdio.go:232 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] send: {"jsonrpc":"2.0","method":"tools/list","params":{},"id":61}
+Warn 2026-04-14 20:35:16,284 v1(7) router.go:210 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Failed to get tools from MCP denghuaguang: code=-1, msg=非常抱歉，服务开小差了，请稍后重试~, inner=inner=
+mcp_proxy.(*Router).callMCP
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:389
+mcp_proxy.(*Router).handleToolsList.func1
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:200
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ Post "http://localhost:3000/mcp": dial tcp [::1]:3000: connect: connection refused
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Debug 2026-04-14 20:35:16,295 v1(7) mcp_stdio.go:141 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] recv: 6147
+Debug 2026-04-14 20:35:16,297 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=3956
+Debug 2026-04-14 20:35:16,297 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=2278
+Info 2026-04-14 20:35:16,297 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776170116278100612-2737284-2165
+Info 2026-04-14 20:35:37,689 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=initialize
+Warn 2026-04-14 20:35:37,691 v1(7) router.go:138 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Failed to initialize from MCP denghuaguang: code=-1, msg=非常抱歉，服务开小差了，请稍后重试~, inner=inner=
+mcp_proxy.(*Router).callMCP
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:389
+mcp_proxy.(*Router).handleInitialize.func1
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:129
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ Post "http://localhost:3000/mcp": dial tcp [::1]:3000: connect: connection refused
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Debug 2026-04-14 20:35:37,691 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=146
+Info 2026-04-14 20:35:37,691 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776170137684303206-2737406-826
+Info 2026-04-14 20:35:38,079 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=tools/call
+Info 2026-04-14 20:35:38,079 v1(7) router.go:268 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Routing tool call mira_local|read_file (original: read_file) to MCP mira_local
+Info 2026-04-14 20:35:38,079 v1(7) router.go:60 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Routing request to MCP: id=mira_local, protocol=stdio
+Debug 2026-04-14 20:35:38,079 v1(7) mcp_stdio.go:232 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] send: {"jsonrpc":"2.0","method":"tools/call","params":{"arguments":{"path":"/Users/bytedance/go/src/github.com/liulanghai/photo-sync/.github/workflows/build-all.yml"},"name":"read_file"},"id":62}
+Debug 2026-04-14 20:35:38,082 v1(7) mcp_stdio.go:141 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] recv: 15637
+Debug 2026-04-14 20:35:38,083 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=3955
+Debug 2026-04-14 20:35:38,084 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=12901
+Info 2026-04-14 20:35:38,084 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776170138074540773-2737410-7762
+Info 2026-04-14 20:35:38,382 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=tools/list
+Debug 2026-04-14 20:35:38,382 v1(7) mcp_stdio.go:232 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] send: {"jsonrpc":"2.0","method":"tools/list","params":{},"id":63}
+Warn 2026-04-14 20:35:38,383 v1(7) router.go:210 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Failed to get tools from MCP denghuaguang: code=-1, msg=非常抱歉，服务开小差了，请稍后重试~, inner=inner=
+mcp_proxy.(*Router).callMCP
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:389
+mcp_proxy.(*Router).handleToolsList.func1
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:200
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ Post "http://localhost:3000/mcp": dial tcp [::1]:3000: connect: connection refused
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Debug 2026-04-14 20:35:38,383 v1(7) mcp_stdio.go:141 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] recv: 6147
+Debug 2026-04-14 20:35:38,384 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=3956
+Debug 2026-04-14 20:35:38,384 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=2278
+Info 2026-04-14 20:35:38,384 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776170138377917267-2737413-9957
+Info 2026-04-14 20:35:48,219 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=initialize
+Warn 2026-04-14 20:35:48,220 v1(7) router.go:138 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Failed to initialize from MCP denghuaguang: code=-1, msg=非常抱歉，服务开小差了，请稍后重试~, inner=inner=
+mcp_proxy.(*Router).callMCP
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:389
+mcp_proxy.(*Router).handleInitialize.func1
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:129
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ Post "http://localhost:3000/mcp": dial tcp [::1]:3000: connect: connection refused
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Debug 2026-04-14 20:35:48,220 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=146
+Info 2026-04-14 20:35:48,220 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776170148213421105-2737463-1178
+Info 2026-04-14 20:35:48,649 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=tools/call
+Info 2026-04-14 20:35:48,649 v1(7) router.go:268 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Routing tool call mira_local|read_file (original: read_file) to MCP mira_local
+Info 2026-04-14 20:35:48,650 v1(7) router.go:60 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Routing request to MCP: id=mira_local, protocol=stdio
+Debug 2026-04-14 20:35:48,650 v1(7) mcp_stdio.go:232 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] send: {"jsonrpc":"2.0","method":"tools/call","params":{"arguments":{"path":"/Users/bytedance/go/src/github.com/liulanghai/photo-sync/.github/workflows/build-apk.yml"},"name":"read_file"},"id":64}
+Debug 2026-04-14 20:35:48,652 v1(7) mcp_stdio.go:141 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] recv: 11995
+Debug 2026-04-14 20:35:48,653 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=3955
+Debug 2026-04-14 20:35:48,653 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=8609
+Info 2026-04-14 20:35:48,653 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776170148644431851-2737465-2319
+Info 2026-04-14 20:35:48,812 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=tools/list
+Debug 2026-04-14 20:35:48,812 v1(7) mcp_stdio.go:232 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] send: {"jsonrpc":"2.0","method":"tools/list","params":{},"id":65}
+Warn 2026-04-14 20:35:48,813 v1(7) router.go:210 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Failed to get tools from MCP denghuaguang: code=-1, msg=非常抱歉，服务开小差了，请稍后重试~, inner=inner=
+mcp_proxy.(*Router).callMCP
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:389
+mcp_proxy.(*Router).handleToolsList.func1
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:200
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ Post "http://localhost:3000/mcp": dial tcp [::1]:3000: connect: connection refused
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Debug 2026-04-14 20:35:48,813 v1(7) mcp_stdio.go:141 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] recv: 6147
+Debug 2026-04-14 20:35:48,814 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=3956
+Debug 2026-04-14 20:35:48,814 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=2278
+Info 2026-04-14 20:35:48,814 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776170148806606255-2737466-5948
+Info 2026-04-14 20:36:23,451 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=initialize
+Warn 2026-04-14 20:36:23,452 v1(7) router.go:138 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Failed to initialize from MCP denghuaguang: code=-1, msg=非常抱歉，服务开小差了，请稍后重试~, inner=inner=
+mcp_proxy.(*Router).callMCP
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:389
+mcp_proxy.(*Router).handleInitialize.func1
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:129
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ Post "http://localhost:3000/mcp": dial tcp [::1]:3000: connect: connection refused
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Debug 2026-04-14 20:36:23,452 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=146
+Info 2026-04-14 20:36:23,453 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776170183446088096-2737677-5725
+Info 2026-04-14 20:36:24,091 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=tools/call
+Info 2026-04-14 20:36:24,091 v1(7) router.go:268 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Routing tool call mira_local|bash (original: bash) to MCP mira_local
+Info 2026-04-14 20:36:24,091 v1(7) router.go:60 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Routing request to MCP: id=mira_local, protocol=stdio
+Debug 2026-04-14 20:36:24,091 v1(7) mcp_stdio.go:232 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] send: {"jsonrpc":"2.0","method":"tools/call","params":{"arguments":{"command":"python3 \u003c\u003c 'PYEOF'\ncontent = r'''name: Build All Platforms\n\non:\n  push:\n    branches: [ main, master ]\n  pull_request:\n    branches: [ main, master ]\n  workflow_dispatch:\n\njobs:\n  build-android:\n    name: Android APK\n    runs-on: ubuntu-latest\n    timeout-minutes: 30\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-java@v4\n        with:\n          distribution: 'zulu'\n          java-version: '17'\n      - uses: subosito/flutter-action@v2\n        with:\n          flutter-version: '3.24.0'\n          channel: 'stable'\n          cache: true\n      - name: Install dependencies\n        run: |\n          cd packages/photo_sync_core \u0026\u0026 dart pub get\n          cd ../../app_mobile \u0026\u0026 flutter pub get\n      - name: Create Android platform files\n        run: |\n          cd app_mobile\n          if [ ! -d \"android\" ]; then flutter create --platforms=android . ; fi\n      - name: Configure Android manifest\n        run: |\n          cat \u003e app_mobile/android/app/src/main/AndroidManifest.xml \u003c\u003c 'MANIFEST_EOF'\n          \u003cmanifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\u003e\n              \u003cuses-permission android:name=\"android.permission.INTERNET\"/\u003e\n              \u003cuses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/\u003e\n              \u003cuses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/\u003e\n              \u003cuses-permission android:name=\"android.permission.CHANGE_WIFI_MULTICAST_STATE\"/\u003e\n              \u003cuses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\"/\u003e\n              \u003cuses-permission android:name=\"android.permission.READ_MEDIA_IMAGES\"/\u003e\n              \u003cuses-permission android:name=\"android.permission.READ_MEDIA_VIDEO\"/\u003e\n              \u003cuses-permission android:name=\"android.permission.CAMERA\"/\u003e\n              \u003cuses-permission android:name=\"android.permission.POST_NOTIFICATIONS\"/\u003e\n              \u003capplication android:label=\"PhotoSync\" android:name=\"${applicationName}\" android:icon=\"@mipmap/ic_launcher\" android:requestLegacyExternalStorage=\"true\"\u003e\n                  \u003cactivity android:name=\".MainActivity\" android:exported=\"true\" android:launchMode=\"singleTop\" android:taskAffinity=\"\" android:theme=\"@style/LaunchTheme\" android:configChanges=\"orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode\" android:hardwareAccelerated=\"true\" android:windowSoftInputMode=\"adjustResize\"\u003e\n                      \u003cmeta-data android:name=\"io.flutter.embedding.android.NormalTheme\" android:resource=\"@style/NormalTheme\"/\u003e\n                      \u003cintent-filter\u003e\u003caction android:name=\"android.intent.action.MAIN\"/\u003e\u003ccategory android:name=\"android.intent.category.LAUNCHER\"/\u003e\u003c/intent-filter\u003e\n                  \u003c/activity\u003e\n                  \u003cmeta-data android:name=\"flutterEmbedding\" android:value=\"2\"/\u003e\n              \u003c/application\u003e\n              \u003cqueries\u003e\u003cintent\u003e\u003caction android:name=\"android.intent.action.PROCESS_TEXT\"/\u003e\u003cdata android:mimeType=\"text/plain\"/\u003e\u003c/intent\u003e\u003c/queries\u003e\n          \u003c/manifest\u003e\n          MANIFEST_EOF\n      - name: Configure build.gradle\n        run: |\n          cd app_mobile/android/app\n          sed -i 's/minSdk = .*/minSdk = 21/' build.gradle\n          sed -i 's/targetSdk = .*/targetSdk = 34/' build.gradle\n          sed -i 's/compileSdk = .*/compileSdk = 34/' build.gradle\n          sed -i 's/applicationId = .*/applicationId = \"com.photosync.app\"/' build.gradle || true\n      - name: Build Release APK\n        run: cd app_mobile \u0026\u0026 flutter build apk --release\n      - uses: actions/upload-artifact@v4\n        with:\n          name: PhotoSync-Android\n          path: app_mobile/build/app/outputs/flutter-apk/app-release.apk\n          retention-days: 30\n\n  build-windows:\n    name: Windows Desktop\n    runs-on: windows-latest\n    timeout-minutes: 30\n    steps:\n      - uses: actions/checkout@v4\n      - uses: subosito/flutter-action@v2\n        with:\n          flutter-version: '3.24.0'\n          channel: 'stable'\n          cache: true\n      - name: Build\n        run: |\n          flutter config --enable-windows-desktop\n          cd packages/photo_sync_core; dart pub get\n          cd ../../app_desktop; flutter pub get\n          if (!(Test-Path \"windows\")) { flutter create --platforms=windows . }\n          flutter build windows --release\n        shell: pwsh\n      - name: Package\n        run: |\n          cd app_desktop/build/windows/x64/runner/Release\n          Compress-Archive -Path * -DestinationPath PhotoSync-Windows.zip\n        shell: pwsh\n      - uses: actions/upload-artifact@v4\n        with:\n          name: PhotoSync-Windows\n          path: app_desktop/build/windows/x64/runner/Release/PhotoSync-Windows.zip\n          retention-days: 30\n\n  build-macos:\n    name: macOS Desktop\n    runs-on: macos-latest\n    timeout-minutes: 30\n    steps:\n      - uses: actions/checkout@v4\n      - uses: subosito/flutter-action@v2\n        with:\n          flutter-version: '3.24.0'\n          channel: 'stable'\n          cache: true\n      - name: Build\n        run: |\n          flutter config --enable-macos-desktop\n          cd packages/photo_sync_core \u0026\u0026 dart pub get\n          cd ../../app_desktop \u0026\u0026 flutter pub get\n          if [ ! -d \"macos\" ]; then flutter create --platforms=macos . ; fi\n          cd macos/Runner\n          for f in DebugProfile.entitlements Release.entitlements; do\n            cat \u003e $f \u003c\u003c 'ENTITLEMENTS_EOF'\n          \u003c?xml version=\"1.0\" encoding=\"UTF-8\"?\u003e\n          \u003c!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\"\u003e\n          \u003cplist version=\"1.0\"\u003e\n          \u003cdict\u003e\n              \u003ckey\u003ecom.apple.security.app-sandbox\u003c/key\u003e\u003ctrue/\u003e\n              \u003ckey\u003ecom.apple.security.network.server\u003c/key\u003e\u003ctrue/\u003e\n              \u003ckey\u003ecom.apple.security.network.client\u003c/key\u003e\u003ctrue/\u003e\n              \u003ckey\u003ecom.apple.security.files.user-selected.read-write\u003c/key\u003e\u003ctrue/\u003e\n              \u003ckey\u003ecom.apple.security.files.downloads.read-write\u003c/key\u003e\u003ctrue/\u003e\n          \u003c/dict\u003e\n          \u003c/plist\u003e\n          ENTITLEMENTS_EOF\n          done\n          cd ../..\n          flutter build macos --release\n      - name: Package\n        run: |\n          cd app_desktop/build/macos/Build/Products/Release\n          zip -r PhotoSync-macOS.zip *.app\n      - uses: actions/upload-artifact@v4\n        with:\n          name: PhotoSync-macOS\n          path: app_desktop/build/macos/Build/Products/Release/PhotoSync-macOS.zip\n          retention-days: 30\n\n  build-linux:\n    name: Linux Desktop\n    runs-on: ubuntu-latest\n    timeout-minutes: 30\n    steps:\n      - uses: actions/checkout@v4\n      - name: Install Linux deps\n        run: |\n          sudo apt-get update -y\n          sudo apt-get install -y clang cmake git ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev\n      - uses: subosito/flutter-action@v2\n        with:\n          flutter-version: '3.24.0'\n          channel: 'stable'\n          cache: true\n      - name: Build\n        run: |\n          flutter config --enable-linux-desktop\n          cd packages/photo_sync_core \u0026\u0026 dart pub get\n          cd ../../app_desktop \u0026\u0026 flutter pub get\n          if [ ! -d \"linux\" ]; then flutter create --platforms=linux . ; fi\n          flutter build linux --release\n      - name: Package\n        run: |\n          cd app_desktop/build/linux/x64/release/bundle\n          tar czf PhotoSync-Linux.tar.gz *\n      - uses: actions/upload-artifact@v4\n        with:\n          name: PhotoSync-Linux\n          path: app_desktop/build/linux/x64/release/bundle/PhotoSync-Linux.tar.gz\n          retention-days: 30\n'''\nwith open('/Users/bytedance/go/src/github.com/liulanghai/photo-sync/.github/workflows/build-all.yml', 'w') as f:\n    f.write(content)\nprint('build-all.yml written')\nPYEOF"},"name":"bash"},"id":66}
+Debug 2026-04-14 20:36:24,175 v1(7) mcp_stdio.go:141 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] recv: 329
+Debug 2026-04-14 20:36:24,175 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=328
+Info 2026-04-14 20:36:24,175 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776170183953714415-2737680-5975
+Info 2026-04-14 20:36:24,332 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=tools/list
+Debug 2026-04-14 20:36:24,332 v1(7) mcp_stdio.go:232 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] send: {"jsonrpc":"2.0","method":"tools/list","params":{},"id":67}
+Warn 2026-04-14 20:36:24,333 v1(7) router.go:210 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Failed to get tools from MCP denghuaguang: code=-1, msg=非常抱歉，服务开小差了，请稍后重试~, inner=inner=
+mcp_proxy.(*Router).callMCP
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:389
+mcp_proxy.(*Router).handleToolsList.func1
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:200
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ Post "http://localhost:3000/mcp": dial tcp [::1]:3000: connect: connection refused
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Debug 2026-04-14 20:36:24,333 v1(7) mcp_stdio.go:141 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] recv: 6147
+Debug 2026-04-14 20:36:24,334 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=3956
+Debug 2026-04-14 20:36:24,334 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=2278
+Info 2026-04-14 20:36:24,334 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776170184321354237-2737684-1749
+Info 2026-04-14 20:36:31,743 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=initialize
+Warn 2026-04-14 20:36:31,744 v1(7) router.go:138 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Failed to initialize from MCP denghuaguang: code=-1, msg=非常抱歉，服务开小差了，请稍后重试~, inner=inner=
+mcp_proxy.(*Router).callMCP
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:389
+mcp_proxy.(*Router).handleInitialize.func1
+	/Users/bytedance/go/src/code.byted.org/blade/mira_tunnel/app/mcp_proxy/router.go:129
+runtime.goexit
+	/usr/local/bytesuite-box/pkg/go/1.24.0/src/runtime/asm_arm64.s:1223
+
+ Post "http://localhost:3000/mcp": dial tcp [::1]:3000: connect: connection refused
+, out=非常抱歉，服务开小差了，请稍后重试~, code=-1
+Debug 2026-04-14 20:36:31,745 v1(7) sender.go:23 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [ChunkSender] len=146
+Info 2026-04-14 20:36:31,745 v1(7) client.go:190 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Client] handleRequest success, req=7812716-denghuaguang-1776170191737698512-2737738-928
+Info 2026-04-14 20:36:32,300 v1(7) router.go:80 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Aggregate request: method=tools/call
+Info 2026-04-14 20:36:32,300 v1(7) router.go:268 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Routing tool call mira_local|bash (original: bash) to MCP mira_local
+Info 2026-04-14 20:36:32,300 v1(7) router.go:60 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [Router] Routing request to MCP: id=mira_local, protocol=stdio
+Debug 2026-04-14 20:36:32,301 v1(7) mcp_stdio.go:232 10.74.28.96 lark.infra.delivery_platform_test - default - 0 _env=prod _env_type=- [MCPServer] send: {"jsonrpc":"2.0","method":"tools/call","params":{"arguments":{"command":"cd /Users/bytedance/go/src/github.com/liulanghai/photo-sync \u0026\u0026 git diff --stat \u0026\u0026 git add -A \u0026\u0026 git commit -m \"fix: 修复 build-all.yml 中 sed 语法错误\n\n1. 将 sed -i '' (macOS语法) 改为 sed -i (Linux/GNU语法)，匹配 ubuntu runner\n2. 将 AndroidManifest heredoc 和 sed 命令拆分为独立 step\n3. 修复 macOS entitlements 中 DTD 转义符号\" \u0026\u0026 git push origin main"},"name":"bash"},"id":68}

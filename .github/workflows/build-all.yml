@@ -31,9 +31,9 @@ jobs:
         run: |
           cd app_mobile
           if [ ! -d "android" ]; then flutter create --platforms=android . ; fi
-      - name: Configure Android
+      - name: Configure Android manifest
         run: |
-          cat > app_mobile/android/app/src/main/AndroidManifest.xml << 'EOF'
+          cat > app_mobile/android/app/src/main/AndroidManifest.xml << 'MANIFEST_EOF'
           <manifest xmlns:android="http://schemas.android.com/apk/res/android">
               <uses-permission android:name="android.permission.INTERNET"/>
               <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
@@ -53,8 +53,14 @@ jobs:
               </application>
               <queries><intent><action android:name="android.intent.action.PROCESS_TEXT"/><data android:mimeType="text/plain"/></intent></queries>
           </manifest>
-          EOF
-          cd app_mobile/android/app && sed -i '' 's/minSdk = .*/minSdk = 21/' build.gradle && sed -i '' 's/targetSdk = .*/targetSdk = 34/' build.gradle && sed -i '' 's/compileSdk = .*/compileSdk = 34/' build.gradle
+          MANIFEST_EOF
+      - name: Configure build.gradle
+        run: |
+          cd app_mobile/android/app
+          sed -i 's/minSdk = .*/minSdk = 21/' build.gradle
+          sed -i 's/targetSdk = .*/targetSdk = 34/' build.gradle
+          sed -i 's/compileSdk = .*/compileSdk = 34/' build.gradle
+          sed -i 's/applicationId = .*/applicationId = "com.photosync.app"/' build.gradle || true
       - name: Build Release APK
         run: cd app_mobile && flutter build apk --release
       - uses: actions/upload-artifact@v4
@@ -112,9 +118,9 @@ jobs:
           if [ ! -d "macos" ]; then flutter create --platforms=macos . ; fi
           cd macos/Runner
           for f in DebugProfile.entitlements Release.entitlements; do
-            cat > $f << 'EOF'
+            cat > $f << 'ENTITLEMENTS_EOF'
           <?xml version="1.0" encoding="UTF-8"?>
-          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"\>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
           <plist version="1.0">
           <dict>
               <key>com.apple.security.app-sandbox</key><true/>
@@ -124,7 +130,7 @@ jobs:
               <key>com.apple.security.files.downloads.read-write</key><true/>
           </dict>
           </plist>
-          EOF
+          ENTITLEMENTS_EOF
           done
           cd ../..
           flutter build macos --release
