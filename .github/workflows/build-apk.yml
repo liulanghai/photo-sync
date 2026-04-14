@@ -130,6 +130,15 @@ jobs:
           </manifest>
           MANIFEST_EOF
 
+          # 5) 修复 MainActivity 包名：移动到 com.photosync.app 目录下
+          MAIN_SRC=app/src/main/kotlin
+          ORIG_MAIN=$(find $MAIN_SRC -name "MainActivity.kt" 2>/dev/null | head -1)
+          if [ -n "$ORIG_MAIN" ]; then
+            mkdir -p $MAIN_SRC/com/photosync/app
+            sed 's/^package .*/package com.photosync.app/' "$ORIG_MAIN" > $MAIN_SRC/com/photosync/app/MainActivity.kt
+            echo "Fixed MainActivity package to com.photosync.app"
+          fi
+
       - name: Build Debug APK
         run: cd app_mobile && flutter build apk --debug
       - name: Build Release APK
