@@ -1,3 +1,5 @@
+import 'photo_info.dart';
+
 /// 本地同步记录模型（手机端数据库）
 class SyncRecord {
   final int? id;
@@ -47,6 +49,3 @@ class SyncRecord {
         syncedAt: DateTime.now().millisecondsSinceEpoch ~/ 1000,
       );
 }
-
-// 需要导入 PhotoInfo
-import 'photo_info.dart';

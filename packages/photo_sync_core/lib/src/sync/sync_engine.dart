@@ -128,7 +128,7 @@ class SyncEngine {
           ));
         }
 
-        task.transferredBytes += file.fileSize;
+        task.transferredBytes = task.transferredBytes + file.fileSize;
         onFileComplete?.call(file, task.results.last.status, null);
       } on DiskFullException {
         task.results.add(SyncFileResult(

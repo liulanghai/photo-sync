@@ -1,3 +1,5 @@
+import 'photo_info.dart';
+
 /// 同步任务模型
 enum SyncStatus {
   pending,   // 待同步
@@ -32,7 +34,7 @@ class SyncTask {
     this.endTime,
     List<SyncFileResult>? results,
   })  : totalFiles = files.length,
-        totalBytes = files.fold(0, (sum, f) => sum + f.fileSize),
+        totalBytes = files.fold<int>(0, (sum, f) => sum + f.fileSize),
         startTime = startTime ?? DateTime.now(),
         results = results ?? [];
 

@@ -82,11 +82,14 @@ class PhotoScanner {
         final file = await asset.file;
         if (file == null) continue;
 
+        // 获取文件大小：通过 File 对象获取实际字节数
+        final fileSizeInBytes = await file.length();
+
         photos.add(PhotoInfo(
           fileName: asset.title ?? 'unknown_${asset.id}',
           filePath: file.path,
           album: album.name,
-          fileSize: asset.size,
+          fileSize: fileSizeInBytes,
           dateAdded: createTime,
           dateModified: asset.modifiedDateTime.millisecondsSinceEpoch ~/ 1000,
           width: asset.width,
