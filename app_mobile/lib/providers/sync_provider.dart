@@ -12,10 +12,11 @@ class SyncProvider extends ChangeNotifier {
   final DedupManager _dedupManager = DedupManager();
   final SyncDatabase _db = SyncDatabase();
   final PhotoScanner _scanner = PhotoScanner();
-  late SyncEngine _engine;
+  SyncEngine? _engine;
 
   String _deviceId = '';
   String _deviceName = '';
+  bool _initialized = false;
 
   // 连接状态
   ConnectionStatus _connectionStatus = ConnectionStatus.disconnected;
@@ -44,57 +45,64 @@ class SyncProvider extends ChangeNotifier {
   List<PhotoInfo> get pendingFiles => _pendingFiles;
   bool get isConnected => _connectionStatus == ConnectionStatus.connected;
   bool get isSyncing => _currentTask?.status == SyncStatus.syncing;
-  bool get isPaused => _engine.isPaused;
+  bool get isPaused => _engine?.isPaused ?? false;
   SyncDatabase get database => _db;
   PhotoScanner get scanner => _scanner;
 
   /// 初始化
   Future<void> initialize() async {
-    final prefs = await SharedPreferences.getInstance();
+    try {
+      final prefs = await SharedPreferences.getInstance();
 
-    _deviceId = prefs.getString('device_id') ?? const Uuid().v4();
-    await prefs.setString('device_id', _deviceId);
+      _deviceId = prefs.getString('device_id') ?? const Uuid().v4();
+      await prefs.setString('device_id', _deviceId);
 
-    _deviceName = prefs.getString('device_name') ?? 'Xiaomi Phone';
-    _token = prefs.getString('auth_token');
-    _serverIp = prefs.getString('server_ip');
-    _serverPort = prefs.getInt('server_port') ?? SyncConstants.defaultPort;
+      _deviceName = prefs.getString('device_name') ?? 'Xiaomi Phone';
+      _token = prefs.getString('auth_token');
+      _serverIp = prefs.getString('server_ip');
+      _serverPort = prefs.getInt('server_port') ?? SyncConstants.defaultPort;
 
-    _engine = SyncEngine(
-      client: _client,
-      dedupManager: _dedupManager,
-    );
+      _engine = SyncEngine(
+        client: _client,
+        dedupManager: _dedupManager,
+      );
 
-    _engine.onProgress = (task) {
-      _currentTask = task;
-      _statusMessage = '同步中 ${task.currentIndex}/${task.totalFiles}';
+      _engine!.onProgress = (task) {
+        _currentTask = task;
+        _statusMessage = '同步中 ${task.currentIndex}/${task.totalFiles}';
+        notifyListeners();
+      };
+
+      _engine!.onFileComplete = (file, status, error) {
+        notifyListeners();
+      };
+
+      _engine!.onSyncComplete = () {
+        _statusMessage = '同步完成';
+        _refreshSyncedCount();
+        notifyListeners();
+      };
+
+      _engine!.onError = (error) {
+        _statusMessage = '错误: $error';
+        notifyListeners();
+      };
+
+      // 恢复已有连接
+      if (_serverIp != null && _token != null) {
+        _client.setServer(_serverIp!, _serverPort);
+        _client.setToken(_token!);
+        await _tryReconnect();
+      }
+
+      await _refreshSyncedCount();
+      _initialized = true;
       notifyListeners();
-    };
-
-    _engine.onFileComplete = (file, status, error) {
+    } catch (e) {
+      _statusMessage = '初始化失败: $e';
+      _initialized = true;
       notifyListeners();
-    };
-
-    _engine.onSyncComplete = () {
-      _statusMessage = '同步完成';
-      _refreshSyncedCount();
-      notifyListeners();
-    };
-
-    _engine.onError = (error) {
-      _statusMessage = '错误: $error';
-      notifyListeners();
-    };
-
-    // 恢复已有连接
-    if (_serverIp != null && _token != null) {
-      _client.setServer(_serverIp!, _serverPort);
-      _client.setToken(_token!);
-      await _tryReconnect();
     }
-
-    await _refreshSyncedCount();
-    notifyListeners();
   }
 
   /// 通过扫码配对结果连接
@@ -166,7 +174,7 @@ class SyncProvider extends ChangeNotifier {
 
   /// 扫描并开始同步
   Future<void> startSync() async {
-    if (!isConnected) {
+    if (!isConnected || _engine == null) {
       _statusMessage = '请先连接电脑';
       notifyListeners();
       return;
@@ -197,7 +205,7 @@ class SyncProvider extends ChangeNotifier {
 
       // 4. 启动同步引擎
       _client.resetCancel();
-      final task = await _engine.performSync(
+      final task = await _engine!.performSync(
         allFiles: allFiles,
         localSyncedFingerprints: localFingerprints,
         onRecordSync: (fingerprint) async {
@@ -229,21 +237,21 @@ class SyncProvider extends ChangeNotifier {
 
   /// 暂停同步
   void pauseSync() {
-    _engine.pause();
+    _engine?.pause();
     _statusMessage = '已暂停';
     notifyListeners();
   }
 
   /// 恢复同步
   void resumeSync() {
-    _engine.resume();
+    _engine?.resume();
     _statusMessage = '同步中...';
     notifyListeners();
   }
 
   /// 取消同步
   void cancelSync() {
-    _engine.cancel();
+    _engine?.cancel();
     _statusMessage = '已取消';
     notifyListeners();
   }
@@ -311,7 +319,11 @@ class SyncProvider extends ChangeNotifier {
   }
 
   Future<void> _refreshSyncedCount() async {
-    _syncedCount = await _db.getSyncedCount();
+    try {
+      _syncedCount = await _db.getSyncedCount();
+    } catch (_) {
+      _syncedCount = 0;
+    }
   }
 
   @override

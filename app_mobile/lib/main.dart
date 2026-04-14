@@ -14,7 +14,12 @@ class PhotoSyncMobileApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => SyncProvider()..initialize(),
+      create: (_) {
+        final provider = SyncProvider();
+        // 延迟初始化，避免在 build 过程中抛异常
+        Future.microtask(() => provider.initialize());
+        return provider;
+      },
       child: MaterialApp(
         title: 'PhotoSync',
         debugShowCheckedModeBanner: false,
