@@ -70,12 +70,13 @@ jobs:
 
           android {
               namespace = "com.photosync.app"
-              compileSdk = 34
-              ndkVersion = flutter.ndkVersion
+              compileSdk = 36
+              ndkVersion = "26.1.10909125"
 
               compileOptions {
                   sourceCompatibility = JavaVersion.VERSION_1_8
                   targetCompatibility = JavaVersion.VERSION_1_8
+                  coreLibraryDesugaringEnabled = true
               }
 
               kotlinOptions {
@@ -88,6 +89,7 @@ jobs:
                   targetSdk = 34
                   versionCode = flutter.versionCode
                   versionName = flutter.versionName
+                  multiDexEnabled = true
               }
 
               buildTypes {
@@ -99,6 +101,10 @@ jobs:
 
           flutter {
               source = "../.."
+          }
+
+          dependencies {
+              coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.1.4"
           }
           GRADLE_EOF
 
