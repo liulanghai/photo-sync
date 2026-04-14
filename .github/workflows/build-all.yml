@@ -31,6 +31,11 @@ jobs:
         run: |
           cd app_mobile
           if [ ! -d "android" ]; then flutter create --platforms=android . ; fi
+      - name: Setup signing keystore
+        run: |
+          cd app_mobile/android/app
+          base64 -d photosync-release.jks.b64 > photosync-release.jks
+          echo "Keystore decoded, size: $(wc -c < photosync-release.jks)"
       - name: Patch Android config
         run: |
           cd app_mobile/android
@@ -71,6 +76,8 @@ jobs:
               id "dev.flutter.flutter-gradle-plugin"
           }
 
+          def keystoreFile = rootProject.file("app/photosync-release.jks")
+
           android {
               namespace = "com.photosync.app"
               compileSdk = 36
@@ -86,6 +93,15 @@ jobs:
                   jvmTarget = JavaVersion.VERSION_1_8
               }
 
+              signingConfigs {
+                  release {
+                      storeFile keystoreFile
+                      storePassword "photosync123"
+                      keyAlias "photosync"
+                      keyPassword "photosync123"
+                  }
+              }
+
               defaultConfig {
                   applicationId = "com.photosync.app"
                   minSdk = 21
@@ -96,8 +112,11 @@ jobs:
               }
 
               buildTypes {
+                  debug {
+                      signingConfig = signingConfigs.release
+                  }
                   release {
-                      signingConfig = signingConfigs.debug
+                      signingConfig = signingConfigs.release
                   }
               }
           }
