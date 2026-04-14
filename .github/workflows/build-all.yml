@@ -57,19 +57,46 @@ jobs:
       - name: Configure Kotlin and Gradle
         run: |
           cd app_mobile/android
-          # 升级 Kotlin 版本到 1.9.22 以兼容 shared_preferences_android 2.4.7
-          sed -i 's/org.jetbrains.kotlin.android" version "[^"]*"/org.jetbrains.kotlin.android" version "1.9.22"/' settings.gradle
-          # 兼容旧格式 build.gradle 中的 ext.kotlin_version
-          sed -i 's/ext.kotlin_version = .*/ext.kotlin_version = "1.9.22"/' build.gradle || true
+
+          # 覆写 settings.gradle，确保 Kotlin 2.0.0 + AGP 8.5.0
+          cat > settings.gradle << 'SETTINGS_EOF'
+          pluginManagement {
+              def flutterSdkPath = {
+                  def properties = new Properties()
+                  file("local.properties").withInputStream { properties.load(it) }
+                  def flutterSdkPath = properties.getProperty("flutter.sdk")
+                  assert flutterSdkPath != null, "flutter.sdk not set in local.properties"
+                  return flutterSdkPath
+              }()
+
+              includeBuild("${flutterSdkPath}/packages/flutter_tools/gradle")
+
+              repositories {
+                  google()
+                  mavenCentral()
+                  gradlePluginPortal()
+              }
+          }
+
+          plugins {
+              id "dev.flutter.flutter-plugin-loader" version "1.0.0"
+              id "com.android.application" version "8.5.0" apply false
+              id "org.jetbrains.kotlin.android" version "2.0.0" apply false
+          }
+
+          include ":app"
+          SETTINGS_EOF
+
+          # 配置 app/build.gradle 的 SDK 版本
           cd app
-          sed -i 's/minSdk = .*/minSdk = 21/' build.gradle
-          sed -i 's/targetSdk = .*/targetSdk = 34/' build.gradle
-          sed -i 's/compileSdk = .*/compileSdk = 34/' build.gradle
-          sed -i 's/applicationId = .*/applicationId = "com.photosync.app"/' build.gradle || true
-          # 打印确认
-          echo "=== settings.gradle kotlin version ==="
-          grep -i kotlin ../settings.gradle || true
-          echo "=== app/build.gradle sdk versions ==="
+          sed -i 's/minSdk\s*=\s*[0-9]*/minSdk = 21/' build.gradle
+          sed -i 's/targetSdk\s*=\s*[0-9]*/targetSdk = 34/' build.gradle
+          sed -i 's/compileSdk\s*=\s*[0-9]*/compileSdk = 34/' build.gradle
+          sed -i 's/applicationId\s*=\s*"[^"]*"/applicationId = "com.photosync.app"/' build.gradle || true
+
+          echo "=== settings.gradle ==="
+          cat ../settings.gradle
+          echo "=== app/build.gradle SDK ==="
           grep -E '(minSdk|targetSdk|compileSdk)' build.gradle || true
       - name: Build Release APK
         run: cd app_mobile && flutter build apk --release
